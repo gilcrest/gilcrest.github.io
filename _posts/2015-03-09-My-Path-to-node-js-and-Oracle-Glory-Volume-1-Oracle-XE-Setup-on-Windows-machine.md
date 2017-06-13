@@ -2,7 +2,7 @@
 layout: post
 title:  "My Path to node.js and Oracle Glory - Volume 1, Oracle XE Setup on Windows machine"
 date:   2015-03-09 20:33:00 -0400
-categories: PL/SQL
+categories: node
 ---
 I am starting a new personal project with the following goals in mind:
 

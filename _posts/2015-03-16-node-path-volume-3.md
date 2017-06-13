@@ -2,7 +2,7 @@
 layout: post
 title:  "My Path to node.js and Oracle Glory - Volume 3, node.js setup on ubuntu on chromebook"
 date:   2015-03-16 14:02:00 -0400
-categories: node.js
+categories: node
 ---
 Next step - node.js setup on Ubuntu.  This was remarkably easy!  I went to [https://nodejs.org/][url-1] and viewed their Downloads section, where I then went to "Installing from package managers".  That link takes you to this [URL][url-2] on GitHub.  If you read the first line of "Debian and Ubuntu based Linux distributions", you'll note you should go to [nodesource's blog post][url-3] for the most up to date instructions.  I did what I was told - read what they have to say on the page - helpful stuff! 
 
