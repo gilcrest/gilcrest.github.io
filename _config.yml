@@ -14,9 +14,9 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: Dan Gillis
-email: gilcrest@gmail.com
+email: danielarthurgillis@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
-  I need to write something here...
+  IT Leader, API/Database Developer in Cambridge, MA
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: gilcrestian
