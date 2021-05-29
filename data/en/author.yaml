@@ -1,0 +1,16 @@
+# some information about you
+name: "Dan Gillis"
+nickname: "Dan Gillis"
+# greeting message before your name. it will default to "Hi! I am" if not provided
+greeting: "Hi, I'm "
+image: "images/author/dan.jpg"
+# give your some contact information. they will be used in the footer
+contactInfo:
+  email: "dan@dangillis.dev"
+
+# some summary about what you do
+summary:
+  - Drummer
+  - Go enthusiast
+  - I work on open-source projects
+  - I am a proven technology leader

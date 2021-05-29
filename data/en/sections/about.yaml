@@ -1,0 +1,67 @@
+# section information
+section:
+  name: About
+  id: about
+  enable: true
+  weight: 1
+  showOnNavbar: true
+  template: sections/about.html
+
+# your designation
+designation: Technology Leader
+# your company information
+company:
+  name: Dan Gillis, LLC
+  url: "https://gilcrest.github.io"
+
+# your resume. this file path should be relative to you "static" directory
+resume: "files/resume.pdf"
+
+# a summary about you
+summary: "I am a passionate technology leader, engineer and drummer with 20+ years of working experience. Formerly, I lead the technology for Starwood Hotels' storied loyalty program, Starwood Preferred Guest (SPG) until the merger with Marriott hotels. More recently, I have been consulting for a variety of retail and small to medium businesses to further their cloud, CRM and Loyalty endeavors. My current technology focus is in Go, particularly backend APIs."
+
+# your social links
+# give as many as you want. use font-awesome for the icons.
+socialLinks:
+  - name: Email
+    icon: "fas fa-envelope"
+    url: "dan@dangillis.dev"
+
+  - name: Github
+    icon: "fab fa-github"
+    url: "https://www.github.com/gilcrest"
+
+  - name: LinkedIn
+    icon: "fab fa-linkedin"
+    url: "https://www.linkedin.com/in/dagillis/"
+
+  - name: Twitter
+    icon: "fab fa-twitter"
+    url: "https://twitter.com/Gilcrestian"
+
+  - name: Medium
+    icon: "fab fa-medium"
+    url: "https://medium.com/@gilcrest_65433"
+
+# your soft skills
+# give the percentage between 50 to 100 with 5 intervals.
+# currently supported colors: blue, yellow, pink, green, sky, orange
+softSkills:
+  - name: Leadership
+    percentage: 95
+    color: blue
+  - name: Team Work
+    percentage: 85
+    color: yellow
+  - name: Communication
+    percentage: 80
+    color: pink
+  - name: Take criticism
+    percentage: 95
+    color: green
+  - name: Critical Thinking
+    percentage: 95
+    color: sky
+  - name: Problem Solving
+    percentage: 85
+    color: orange
