@@ -2,6 +2,7 @@
 title: "And then there was Go..."
 date: 2017-01-09T02:45:00-04:00
 description: First Go Post
+hero: gilcrestGopher.png
 menu:
   sidebar:
     name: Go
