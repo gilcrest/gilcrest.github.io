@@ -7,7 +7,7 @@ menu:
     name: Volume 3
     identifier: volume-3
     parent: node-oracle-glory
-    weight: 70
+    weight: 1000
 ---
 
 

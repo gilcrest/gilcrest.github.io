@@ -7,7 +7,7 @@ menu:
     name: Volume 1
     identifier: volume-1
     parent: node-oracle-glory
-    weight: 90
+    weight: 1200
 ---
 
 I am starting a new personal project with the following goals in mind:

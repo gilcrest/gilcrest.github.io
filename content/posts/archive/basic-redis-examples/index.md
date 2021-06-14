@@ -7,7 +7,7 @@ menu:
     name: Basic Redis Examples with Go
     identifier: basic-redis-examples-go
     parent: archive
-    weight: 20
+    weight: 200
 ---
 
 

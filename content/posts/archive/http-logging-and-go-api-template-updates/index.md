@@ -7,7 +7,7 @@ menu:
     name: HTTP Logging and Go API Template Updates
     identifier: http-logging-and-go-api-template-updates
     parent: archive
-    weight: 10
+    weight: 100
 ---
 
 I built my first Go library! [httplog](https://github.com/gilcrest/httplog) provides middleware which logs http requests and responses along with a few other features I find useful. I thought it might be helpful for some. At the very least, I tried to document the library reasonably well, spending a lot of time developing the [README](https://github.com/gilcrest/httplog/blob/master/README.md) and ensuring the [GoDoc](https://godoc.org/github.com/gilcrest/httplog) was in good shape. I learned a lot through this exercise.

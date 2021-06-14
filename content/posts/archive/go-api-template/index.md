@@ -7,7 +7,7 @@ menu:
     name: Go API Template v0.0.2
     identifier: go-api-template-v002
     parent: archive
-    weight: 20
+    weight: 500
 ---
 
 

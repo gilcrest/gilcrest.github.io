@@ -5,5 +5,5 @@ menu:
     name: Node Oracle Glory
     identifier: node-oracle-glory
     parent: archive
-    weight: 70
+    weight: 975
 ---

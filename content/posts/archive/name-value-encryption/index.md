@@ -7,7 +7,7 @@ menu:
     name: Name:Value Encryption Utility using PL/SQL
     identifier: name-value-encryption
     parent: archive
-    weight: 100
+    weight: 1300
 ---
 
 I recently ran into an issue where, as part of a webservice call I was making using the Oracle APEX_WEB_SERVICE API, I needed to pass the application id and password in the soap header, but I did not want those sensitive data elements to be exposed in my pl/sql code in cleartext.  I decided I wanted to encrypt the data and retrieve it at run time as a function call.  I tried to find a way to do this via Stack Overflow, Google, etc. but was unable to find a very simple way to do this....

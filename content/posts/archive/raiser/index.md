@@ -7,7 +7,7 @@ menu:
     name: Raiser
     identifier: raiser
     parent: archive
-    weight: 60
+    weight: 900
 ---
 
 I just released an early version of my "raiser" code for Oracle PL/SQL, leveraging OraOpenSource's logger utility.  I'd love to get anyone's input and help with it.  The Github project is [https://github.com/gilcrest/raiser][raiser]

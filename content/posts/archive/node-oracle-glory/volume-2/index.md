@@ -7,7 +7,7 @@ menu:
     name: Volume 2
     identifier: volume-2
     parent: node-oracle-glory
-    weight: 80
+    weight: 1100
 ---
 
 OK, so now having established my database server in Volume 1 of this series, I now need to move to the next step - setting up my chromebook with Linux in order to facilitate node.js development.  I chose a chromebook as my dev machine of choice as I wanted something that natively runs on Linux, but didn't want to pay as much as a Mac and didn't really like the Linux based machine options out there...  Google is doing a great job with these and after having my chromebook for a little over a week - I have to say I love it...
