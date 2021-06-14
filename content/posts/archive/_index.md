@@ -4,5 +4,5 @@ menu:
   sidebar:
     name: Archive
     identifier: archive
-    weight: 20
+    weight: 1000
 ---
