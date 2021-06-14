@@ -5,7 +5,7 @@ description: Converted Blog from Jekyll to Hugo today
 menu:
   sidebar:
     name: Jekyll to Hugo Conversion
-    weight: 10
+    weight: 30
 ---
 
 Today I converted my old posts from [jekyll](https://jekyllrb.com/) to [HUGO](https://gohugo.io/) and archived them for posterity. It's fun to look back at some of those posts now -- so much has changed for me...
