@@ -30,7 +30,10 @@ outputs:
     - JSON
 
 # Enable Google Analytics
-# googleAnalytics: UA-122321624-2
+googleAnalytics: G-XLZMNNXEBL
+
+# Enable Disqus forum
+disqusShortname: dangillis
 
 # Enable global emoji support
 enableEmoji: true
@@ -65,6 +68,9 @@ params:
     notes:
       enable: false
 
+
+  # specify whether you want to show Table of Contents in reading page
+  enableTOC: true
 
   # Provide footer configuration.
   footer:
