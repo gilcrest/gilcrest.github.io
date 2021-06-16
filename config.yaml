@@ -30,7 +30,7 @@ outputs:
     - JSON
 
 # Enable Google Analytics
-googleAnalytics: G-XLZMNNXEBL
+googleAnalytics: UA-199587952-1
 
 # Enable Disqus forum
 disqusShortname: dangillis
