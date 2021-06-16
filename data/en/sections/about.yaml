@@ -35,6 +35,11 @@ socialLinks:
     icon: "fab fa-linkedin"
     url: "https://www.linkedin.com/in/dagillis/"
 
+  - name: Instagram
+    icon: "fab fa-instagram"
+    url: "https://www.instagram.com/g.ilcrest/"
+
+
   - name: Twitter
     icon: "fab fa-twitter"
     url: "https://twitter.com/Gilcrestian"
