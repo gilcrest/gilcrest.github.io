@@ -39,14 +39,13 @@ socialLinks:
     icon: "fab fa-instagram"
     url: "https://www.instagram.com/g.ilcrest/"
 
-
   - name: Twitter
     icon: "fab fa-twitter"
     url: "https://twitter.com/Gilcrestian"
 
   - name: Medium
     icon: "fab fa-medium"
-    url: "https://medium.com/@gilcrest_65433"
+    url: "https://gilcrestian.medium.com/"
 
 # your soft skills
 # give the percentage between 50 to 100 with 5 intervals.
