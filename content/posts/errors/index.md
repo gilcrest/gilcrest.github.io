@@ -1,11 +1,11 @@
 ---
 title: "REST API Error Handling in Go"
-date: 2021-06-21T11:10:00-04:00
+date: 2021-06-21T10:35:00-04:00
 description: An approach to REST API error handling in the Go programming language.
 menu:
   sidebar:
     name: REST API Error Handling in Go
-    weight: 20
+    weight: 10
 ---
 
 Handling errors is really important in Go. Errors are first class citizens and there are many different approaches for handling them. Initially I started off basing my error handling almost entirely on a [blog post from Rob Pike](https://commandcenter.blogspot.com/2017/12/error-handling-in-upspin.html) and created a carve-out from his code to meet my needs. It served me well for a long time, but found over time I wanted a way to easily get a stacktrace of the error, which led me to Dave Cheney's [https://github.com/pkg/errors](https://github.com/pkg/errors) package. I now use a combination of the two. The implementation below is sourced from my [go-api-basic](https://github.com/gilcrest/go-api-basic) repo, indeed, this post will be folded into its [README](https://github.com/gilcrest/go-api-basic#errors) as well.

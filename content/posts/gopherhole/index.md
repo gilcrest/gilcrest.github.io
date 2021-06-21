@@ -1,12 +1,12 @@
 ---
 title: "Emerging from my Gopher Hole"
-date: 2021-06-20T11:00:00-04:00
+date: 2021-06-21T10:30:00-04:00
 description: Emerging from my Gopher hole
 hero: hero.jpeg
 menu:
   sidebar:
     name: Emerging from my Gopher Hole
-    weight: 10
+    weight: 20
 ---
 
 ## Inspiration
