@@ -50,7 +50,7 @@ The `log-error-stack` boolean flag tells whether to log stack traces for each er
 
 ## Reading and Modifying Logger State
 
-You can retrieve and update the state of these flags using two web services I created in `go-api-basic` at the `{{base_url}}/api/v1/logger` endpoint.
+You can retrieve and update the state of these flags using the `{{base_url}}/api/v1/logger` endpoint.
 
 To retrieve the current logger state use a `GET` request:
 
