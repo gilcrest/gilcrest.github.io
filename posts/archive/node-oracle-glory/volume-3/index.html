@@ -1,18 +1,221 @@
-<!doctype html><html><head><title>My Path to node.js and Oracle Glory - Volume 3</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="ie=edge"><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/layouts/main.css><link rel=stylesheet href=/css/navigators/navbar.css><link rel=stylesheet href=/css/plyr.css><link rel=stylesheet href=/css/flag-icon.min.css><link href="https://fonts.googleapis.com/css2?family=Muli:wght@300;400;500;600" rel=stylesheet><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css><link rel=icon type=image/png href=/images/author/dan_hu9475e40123017607cf3e014e405fbc8c_9664_42x0_resize_q75_box.jpg><meta property="og:title" content="My Path to node.js and Oracle Glory - Volume 3"><meta property="og:description" content="node.js setup on ubuntu on chromebook"><meta property="og:type" content="article"><meta property="og:url" content="https://gilcrest.github.io/posts/archive/node-oracle-glory/volume-3/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2015-03-16T14:02:00-04:00"><meta property="article:modified_time" content="2015-03-16T14:02:00-04:00"><meta name=description content="node.js setup on ubuntu on chromebook"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/atom-one-dark.min.css><link rel=stylesheet href=/css/layouts/single.css><link rel=stylesheet href=/css/navigators/sidebar.css><link rel=stylesheet href=/css/style.css><script async src="https://www.googletagmanager.com/gtag/js?id=G-WB0P084V1J"></script><script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','G-WB0P084V1J',{anonymize_ip:!1})}</script></head><body data-spy=scroll data-target=#TableOfContents data-offset=80><div class="container-fluid bg-dimmed wrapper"><nav class="navbar navbar-expand-xl top-navbar final-navbar shadow"><div class=container><button class="navbar-toggler navbar-light" id=sidebar-toggler type=button onclick=toggleSidebar()>
-<span class=navbar-toggler-icon></span></button>
-<a class=navbar-brand href=/><img src=/images/author/dan_hu9475e40123017607cf3e014e405fbc8c_9664_42x0_resize_q75_box.jpg alt=Logo>
+<!doctype html><html>
+<head>
+<title>My Path to node.js and Oracle Glory - Volume 3</title>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta http-equiv=x-ua-compatible content="ie=edge">
+<link rel=stylesheet href=/css/bootstrap.min.css>
+<link rel=stylesheet href=/css/layouts/main.css>
+<link rel=stylesheet href=/css/navigators/navbar.css>
+<link rel=stylesheet href=/css/plyr.css>
+<link rel=stylesheet href=/css/flag-icon.min.css>
+<link href="https://fonts.googleapis.com/css2?family=Muli:wght@300;400;500;600" rel=stylesheet>
+<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css>
+<link rel=icon type=image/png href=/images/author/dan_hu9475e40123017607cf3e014e405fbc8c_9664_42x0_resize_q75_box.jpg>
+<meta property="og:title" content="My Path to node.js and Oracle Glory - Volume 3">
+<meta property="og:description" content="node.js setup on ubuntu on chromebook">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://gilcrest.github.io/posts/archive/node-oracle-glory/volume-3/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2015-03-16T14:02:00-04:00">
+<meta property="article:modified_time" content="2015-03-16T14:02:00-04:00">
+<meta name=description content="node.js setup on ubuntu on chromebook">
+<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/atom-one-dark.min.css>
+<link rel=stylesheet href=/css/layouts/single.css>
+<link rel=stylesheet href=/css/navigators/sidebar.css>
+<link rel=stylesheet href=/css/style.css>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WB0P084V1J"></script>
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','G-WB0P084V1J',{anonymize_ip:!1})}</script>
+</head>
+<body data-spy=scroll data-target=#TableOfContents data-offset=80>
+<div class="container-fluid bg-dimmed wrapper">
+<nav class="navbar navbar-expand-xl top-navbar final-navbar shadow">
+<div class=container>
+<button class="navbar-toggler navbar-light" id=sidebar-toggler type=button onclick=toggleSidebar()>
+<span class=navbar-toggler-icon></span>
+</button>
+<a class=navbar-brand href=/>
+<img src=/images/author/dan_hu9475e40123017607cf3e014e405fbc8c_9664_42x0_resize_q75_box.jpg alt=Logo>
 Dan Gillis</a>
 <button class="navbar-toggler navbar-light" id=toc-toggler type=button onclick=toggleTOC()>
-<span class=navbar-toggler-icon></span></button><div class="collapse navbar-collapse lang-selector" id=top-nav-items><ul class="navbar-nav ml-auto"></ul></div></div><img src=/images/author/dan_hu9475e40123017607cf3e014e405fbc8c_9664_42x0_resize_q75_box.jpg class=d-none id=main-logo alt=Logo>
-<img src=/images/author/dan_hu9475e40123017607cf3e014e405fbc8c_9664_42x0_resize_q75_box.jpg class=d-none id=inverted-logo alt="Inverted Logo"></nav><section class=sidebar-section id=sidebar-section><div class=sidebar-holder><div class=sidebar id=sidebar><form class=mx-auto method=get action=/search><input type=text name=keyword placeholder=Search data-search id=search-box></form><div class=sidebar-tree><ul class=tree id=tree><li id=list-heading><a href=/posts data-filter=all>Posts</a></li><div class=subtree><li><a href=/posts/logging/ title="Logging in go-api-basic">Logging in go-api-basic</a></li><li><a href=/posts/errors/ title="REST API Error Handling in Go">REST API Error Handling in Go</a></li><li><a href=/posts/gopherhole/ title="Emerging from my Gopher Hole">Emerging from my Gopher Hole</a></li><li><a href=/posts/conversion/ title="Jekyll to Hugo Conversion">Jekyll to Hugo Conversion</a></li><li><i class="fas fa-minus-circle"></i><a class=active href=/posts/archive/>Archive</a><ul class=active><li><a href=/posts/archive/http-logging-and-go-api-template-updates/ title="HTTP Logging and Go API Template Updates">HTTP Logging and Go API Template Updates</a></li><li><a href=/posts/archive/basic-redis-examples/ title="Basic Redis Examples with Go">Basic Redis Examples with Go</a></li><li><a href=/posts/archive/containerize-go-api/ title="Containerizing a Go API with Docker For Mac">Containerizing a Go API with Docker For Mac</a></li><li><a href=/posts/archive/http-json-error-responses/ title="HTTP JSON Error Responses in Go">HTTP JSON Error Responses in Go</a></li><li><a href=/posts/archive/king-crimson-red/ title="Drums - King Crimson Red Live @ Great Scott">Drums - King Crimson Red Live @ Great Scott</a></li><li><a href=/posts/archive/go-api-template/ title="Go API Template v0.0.2">Go API Template v0.0.2</a></li><li><a href=/posts/archive/go/ title=Go>Go</a></li><li><a href=/posts/archive/frankenstein/ title="Drums - Frankenstein Practice">Drums - Frankenstein Practice</a></li><li><a href=/posts/archive/osx-oracle-node-setup/ title="OS X Oracle + Node setup">OS X Oracle + Node setup</a></li><li><a href=/posts/archive/drums-raju-live/ title="Drums - Raju Live">Drums - Raju Live</a></li><li><a href=/posts/archive/apex-minimize/ title="Apex 5 - Minimize Left Sidebar">Apex 5 - Minimize Left Sidebar</a></li><li><a href=/posts/archive/raiser/ title=Raiser>Raiser</a></li><li><i class="fas fa-minus-circle"></i><a class=active href=/posts/archive/node-oracle-glory/>Node Oracle Glory</a><ul class=active><li><a class=active href=/posts/archive/node-oracle-glory/volume-3/ title="Volume 3">Volume 3</a></li><li><a href=/posts/archive/node-oracle-glory/volume-2/ title="Volume 2">Volume 2</a></li><li><a href=/posts/archive/node-oracle-glory/volume-1/ title="Volume 1">Volume 1</a></li></ul></li><li><a href=/posts/archive/name-value-encryption/ title="Name:Value Encryption Utility using PL/SQL">Name:Value Encryption Utility using PL/SQL</a></li></ul></li></div></ul></div></div></div></section><section class=content-section id=content-section><div class=content><div class="container p-0 read-area"><div class="hero-area col-sm-12" id=hero-area style=background-image:url(https://gilcrest.github.io/images/default-hero.jpg)></div><div class=page-content><div class="author-profile ml-auto align-self-lg-center"><img class=rounded-circle src=/images/author/dan_hu9475e40123017607cf3e014e405fbc8c_9664_120x120_fit_q75_box.jpg alt="Author Image"><h5 class=author-name>Dan Gillis</h5><p>March 16, 2015</p></div><div class=title><h1>My Path to node.js and Oracle Glory - Volume 3</h1></div><div class=post-content id=post-content><p>Next step - node.js setup on Ubuntu. This was remarkably easy! I went to <a href=https://nodejs.org/>https://nodejs.org/</a> and viewed their Downloads section, where I then went to &ldquo;Installing from package managers&rdquo;. That link takes you to this <a href=https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager>URL</a> on GitHub. If you read the first line of &ldquo;Debian and Ubuntu based Linux distributions&rdquo;, you&rsquo;ll note you should go to <a href=https://nodesource.com/blog/nodejs-v012-iojs-and-the-nodesource-linux-repositories>nodesource&rsquo;s blog post</a> for the most up to date instructions. I did what I was told - read what they have to say on the page - helpful stuff!</p><p>The instructions to install are as follows:</p><p>Open a new crosh window or use ctrl+alt+t and type:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>shell
-</code></pre></div><p>To get into Ubuntu, type:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>sudo startxfce4
-</code></pre></div><p>Inside Ubuntu, click on the Terminal Emulator icon</p><p>You now need curl (a tool for making http calls, etc. - <a href=http://en.wikipedia.org/wiki/CURL>http://en.wikipedia.org/wiki/CURL</a>), so get it - type:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>sudo apt-get install curl
-</code></pre></div><p>The instructions from nodesource&rsquo;s blog post say to then enter the following:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=color:#75715e># Note the new setup script name for Node.js v0.12</span>
+<span class=navbar-toggler-icon></span>
+</button>
+<div class="collapse navbar-collapse lang-selector" id=top-nav-items>
+<ul class="navbar-nav ml-auto">
+</ul>
+</div>
+</div>
+<img src=/images/author/dan_hu9475e40123017607cf3e014e405fbc8c_9664_42x0_resize_q75_box.jpg class=d-none id=main-logo alt=Logo>
+<img src=/images/author/dan_hu9475e40123017607cf3e014e405fbc8c_9664_42x0_resize_q75_box.jpg class=d-none id=inverted-logo alt="Inverted Logo">
+</nav>
+<section class=sidebar-section id=sidebar-section>
+<div class=sidebar-holder>
+<div class=sidebar id=sidebar>
+<form class=mx-auto method=get action=/search>
+<input type=text name=keyword placeholder=Search data-search id=search-box>
+</form>
+<div class=sidebar-tree>
+<ul class=tree id=tree>
+<li id=list-heading><a href=/posts data-filter=all>Posts</a></li>
+<div class=subtree>
+<li><a href=/posts/logging/ title="Logging in go-api-basic">Logging in go-api-basic</a></li>
+<li><a href=/posts/errors/ title="REST API Error Handling in Go">REST API Error Handling in Go</a></li>
+<li><a href=/posts/gopherhole/ title="Emerging from my Gopher Hole">Emerging from my Gopher Hole</a></li>
+<li><a href=/posts/conversion/ title="Jekyll to Hugo Conversion">Jekyll to Hugo Conversion</a></li>
+<li>
+<i class="fas fa-minus-circle"></i><a class=active href=/posts/archive/>Archive</a>
+<ul class=active>
+<li><a href=/posts/archive/http-logging-and-go-api-template-updates/ title="HTTP Logging and Go API Template Updates">HTTP Logging and Go API Template Updates</a></li>
+<li><a href=/posts/archive/basic-redis-examples/ title="Basic Redis Examples with Go">Basic Redis Examples with Go</a></li>
+<li><a href=/posts/archive/containerize-go-api/ title="Containerizing a Go API with Docker For Mac">Containerizing a Go API with Docker For Mac</a></li>
+<li><a href=/posts/archive/http-json-error-responses/ title="HTTP JSON Error Responses in Go">HTTP JSON Error Responses in Go</a></li>
+<li><a href=/posts/archive/king-crimson-red/ title="Drums - King Crimson Red Live @ Great Scott">Drums - King Crimson Red Live @ Great Scott</a></li>
+<li><a href=/posts/archive/go-api-template/ title="Go API Template v0.0.2">Go API Template v0.0.2</a></li>
+<li><a href=/posts/archive/go/ title=Go>Go</a></li>
+<li><a href=/posts/archive/frankenstein/ title="Drums - Frankenstein Practice">Drums - Frankenstein Practice</a></li>
+<li><a href=/posts/archive/osx-oracle-node-setup/ title="OS X Oracle + Node setup">OS X Oracle + Node setup</a></li>
+<li><a href=/posts/archive/drums-raju-live/ title="Drums - Raju Live">Drums - Raju Live</a></li>
+<li><a href=/posts/archive/apex-minimize/ title="Apex 5 - Minimize Left Sidebar">Apex 5 - Minimize Left Sidebar</a></li>
+<li><a href=/posts/archive/raiser/ title=Raiser>Raiser</a></li>
+<li>
+<i class="fas fa-minus-circle"></i><a class=active href=/posts/archive/node-oracle-glory/>Node Oracle Glory</a>
+<ul class=active>
+<li><a class=active href=/posts/archive/node-oracle-glory/volume-3/ title="Volume 3">Volume 3</a></li>
+<li><a href=/posts/archive/node-oracle-glory/volume-2/ title="Volume 2">Volume 2</a></li>
+<li><a href=/posts/archive/node-oracle-glory/volume-1/ title="Volume 1">Volume 1</a></li>
+</ul>
+</li>
+<li><a href=/posts/archive/name-value-encryption/ title="Name:Value Encryption Utility using PL/SQL">Name:Value Encryption Utility using PL/SQL</a></li>
+</ul>
+</li>
+</div>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section class=content-section id=content-section>
+<div class=content>
+<div class="container p-0 read-area">
+<div class="hero-area col-sm-12" id=hero-area style=background-image:url(https://gilcrest.github.io/images/default-hero.jpg)>
+</div>
+<div class=page-content>
+<div class="author-profile ml-auto align-self-lg-center">
+<img class=rounded-circle src=/images/author/dan_hu9475e40123017607cf3e014e405fbc8c_9664_120x120_fit_q75_box.jpg alt="Author Image">
+<h5 class=author-name>Dan Gillis</h5>
+<p>March 16, 2015</p>
+</div>
+<div class=title>
+<h1>My Path to node.js and Oracle Glory - Volume 3</h1>
+</div>
+<div class=post-content id=post-content>
+<p>Next step - node.js setup on Ubuntu. This was remarkably easy! I went to <a href=https://nodejs.org/>https://nodejs.org/</a> and viewed their Downloads section, where I then went to &ldquo;Installing from package managers&rdquo;. That link takes you to this <a href=https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager>URL</a> on GitHub. If you read the first line of &ldquo;Debian and Ubuntu based Linux distributions&rdquo;, you&rsquo;ll note you should go to <a href=https://nodesource.com/blog/nodejs-v012-iojs-and-the-nodesource-linux-repositories>nodesource&rsquo;s blog post</a> for the most up to date instructions. I did what I was told - read what they have to say on the page - helpful stuff!</p>
+<p>The instructions to install are as follows:</p>
+<p>Open a new crosh window or use ctrl+alt+t and type:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>shell
+</code></pre></div><p>To get into Ubuntu, type:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>sudo startxfce4
+</code></pre></div><p>Inside Ubuntu, click on the Terminal Emulator icon</p>
+<p>You now need curl (a tool for making http calls, etc. - <a href=http://en.wikipedia.org/wiki/CURL>http://en.wikipedia.org/wiki/CURL</a>), so get it - type:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>sudo apt-get install curl
+</code></pre></div><p>The instructions from nodesource&rsquo;s blog post say to then enter the following:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=color:#75715e># Note the new setup script name for Node.js v0.12</span>
 curl -sL https://deb.nodesource.com/setup_0.12 | sudo bash -
-</code></pre></div><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=color:#75715e># Then install with:</span>
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=color:#75715e># Then install with:</span>
 sudo apt-get install -y nodejs
-</code></pre></div><p>Type node to start node..</p><p>That&rsquo;s it! node.js is installed in Ubuntu inside my chromebook!</p><p>There are a <em>TON</em> of node.js intros, etc. that I&rsquo;ve been pouring over for a while now - I&rsquo;m not going to bother to explain the basics of node as it&rsquo;s extremely well documented. I will now start to write some small pl/sql and js programs using the node-oracledb driver and will continue to blog as things progress in that area&mldr; That&rsquo;s it for today!</p></div><div class=btn-improve-page><a href=https://github.com/gilcrest/gilcrest.github.io/edit/source/content/posts/archive/node-oracle-glory/volume-3/index.md title="Improve this page" target=_blank rel=noopener><i class="fas fa-code-branch"></i>
-Improve this page</a></div><hr><div class="row next-prev-navigator"><div class="col-md-6 previous-article"><a href=/posts/archive/raiser/ title="Raiser v0.5 - Committed to Github" class="btn btn-outline-info"><div><i class="fas fa-chevron-circle-left"></i> Prev</div><div class=next-prev-text>Raiser v0.5 - Committed to Github</div></a></div><div class="col-md-6 next-article"><a href=/posts/archive/node-oracle-glory/volume-2/ title="My Path to node.js and Oracle Glory - Volume 2" class="btn btn-outline-info"><div>Next <i class="fas fa-chevron-circle-right"></i></div><div class=next-prev-text>My Path to node.js and Oracle Glory - Volume 2</div></a></div></div><hr><div id=disqus_thread></div><script type=text/javascript>(function(){var a,b;if(window.location.hostname=="localhost")return;a=document.createElement("script"),a.type="text/javascript",a.async=!0,b="dangillis",a.src="//"+b+".disqus.com/embed.js",(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)})()</script><noscript>Please enable JavaScript to view the
-<a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com/ class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div></div></div><a id=scroll-to-top class=btn><i class="fas fa-chevron-circle-up"></i></a></section><section class=toc-section id=toc-section><div class=toc-holder><h5 class="text-center pl-3">Table of Contents</h5><hr><div class=toc><nav id=TableOfContents></nav></div></div></section></div><footer class="container-fluid text-center align-content-center footer pb-2"><div class="container pt-5"><div class="row text-left"><div class="col-md-4 col-sm-12"><h5>Navigation</h5><ul><li class=nav-item><a class=smooth-scroll href=/#about>About</a></li><li class=nav-item><a class=smooth-scroll href=/#recent-posts>Recent Posts</a></li></ul></div><div class="col-md-4 col-sm-12"><h5>Contact me:</h5><ul><li><span>Email:</span> <span>dan@dangillis.dev</span></li></ul></div></div></div><hr><div class=container><div class="row text-left"><div class=col-md-4><a id=theme href=https://github.com/hossainemruz/toha target=_blank rel=noopener><img src=/images/theme-logo_hu8376fd15465fef26ffe66b6bcf0ca686_13669_32x0_resize_box_2.png alt="Toha Theme Logo">
-Toha</a></div><div class="col-md-4 text-center">© 2021 Copyright.</div><div class="col-md-4 text-right"><a id=hugo href=https://gohugo.io/ target=_blank rel=noopener>Powered by
-<img src=/images/hugo-logo.svg alt="Hugo Logo" height=18></a></div></div></div></footer><script type=text/javascript src=/js/jquery-3.4.1.min.js></script><script type=text/javascript src=/js/popper.min.js></script><script type=text/javascript src=/js/bootstrap.min.js></script><script type=text/javascript src=/js/navbar.js></script><script type=text/javascript src=/js/plyr.js></script><script type=text/javascript src=/js/main.js></script><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js></script><script src=/js/single.js></script><script>hljs.initHighlightingOnLoad()</script></body></html>
+</code></pre></div><p>Type node to start node..</p>
+<p>That&rsquo;s it! node.js is installed in Ubuntu inside my chromebook!</p>
+<p>There are a <em>TON</em> of node.js intros, etc. that I&rsquo;ve been pouring over for a while now - I&rsquo;m not going to bother to explain the basics of node as it&rsquo;s extremely well documented. I will now start to write some small pl/sql and js programs using the node-oracledb driver and will continue to blog as things progress in that area&mldr; That&rsquo;s it for today!</p>
+</div>
+<div class=btn-improve-page>
+<a href=https://github.com/gilcrest/gilcrest.github.io/edit/source/content/posts/archive/node-oracle-glory/volume-3/index.md title="Improve this page" target=_blank rel=noopener>
+<i class="fas fa-code-branch"></i>
+Improve this page
+</a>
+</div>
+<hr>
+<div class="row next-prev-navigator">
+<div class="col-md-6 previous-article">
+<a href=/posts/archive/raiser/ title="Raiser v0.5 - Committed to Github" class="btn btn-outline-info">
+<div><i class="fas fa-chevron-circle-left"></i> Prev</div>
+<div class=next-prev-text>Raiser v0.5 - Committed to Github</div>
+</a>
+</div>
+<div class="col-md-6 next-article">
+<a href=/posts/archive/node-oracle-glory/volume-2/ title="My Path to node.js and Oracle Glory - Volume 2" class="btn btn-outline-info">
+<div>Next <i class="fas fa-chevron-circle-right"></i></div>
+<div class=next-prev-text>My Path to node.js and Oracle Glory - Volume 2</div>
+</a>
+</div>
+</div>
+<hr>
+<div id=disqus_thread></div>
+<script type=text/javascript>(function(){var a,b;if(window.location.hostname=="localhost")return;a=document.createElement("script"),a.type="text/javascript",a.async=!0,b="dangillis",a.src="//"+b+".disqus.com/embed.js",(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)})()</script>
+<noscript>Please enable JavaScript to view the
+<a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
+<a href=https://disqus.com/ class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
+</div>
+</div>
+</div>
+<a id=scroll-to-top class=btn><i class="fas fa-chevron-circle-up"></i></a>
+</section>
+<section class=toc-section id=toc-section>
+<div class=toc-holder>
+<h5 class="text-center pl-3">Table of Contents</h5>
+<hr>
+<div class=toc>
+<nav id=TableOfContents></nav>
+</div>
+</div>
+</section>
+</div>
+<footer class="container-fluid text-center align-content-center footer pb-2">
+<div class="container pt-5">
+<div class="row text-left">
+<div class="col-md-4 col-sm-12">
+<h5>Navigation</h5>
+<ul>
+<li class=nav-item>
+<a class=smooth-scroll href=/#about>About</a>
+</li>
+<li class=nav-item>
+<a class=smooth-scroll href=/#recent-posts>Recent Posts</a>
+</li>
+</ul>
+</div>
+<div class="col-md-4 col-sm-12">
+<h5>Contact me:</h5>
+<ul>
+<li><span>Email: </span> <span>dan@dangillis.dev</span></li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class=container>
+<div class="row text-left">
+<div class=col-md-4>
+<a id=theme href=https://github.com/hossainemruz/toha target=_blank rel=noopener>
+<img src=/images/theme-logo_hu8376fd15465fef26ffe66b6bcf0ca686_13669_32x0_resize_box_3.png alt="Toha Theme Logo">
+Toha
+</a>
+</div>
+<div class="col-md-4 text-center">© 2021 Copyright.</div>
+<div class="col-md-4 text-right">
+<a id=hugo href=https://gohugo.io/ target=_blank rel=noopener>Powered by
+<img src=/images/hugo-logo.svg alt="Hugo Logo" height=18>
+</a>
+</div>
+</div>
+</div>
+</footer>
+<script type=text/javascript src=/js/jquery-3.4.1.min.js></script>
+<script type=text/javascript src=/js/popper.min.js></script>
+<script type=text/javascript src=/js/bootstrap.min.js></script>
+<script type=text/javascript src=/js/navbar.js></script>
+<script type=text/javascript src=/js/plyr.js></script>
+<script type=text/javascript src=/js/main.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js></script>
+<script src=/js/single.js></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
