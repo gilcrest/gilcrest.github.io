@@ -9,7 +9,8 @@
 <link rel=stylesheet href=/css/navigators/navbar.css>
 <link rel=stylesheet href=/css/plyr.css>
 <link rel=stylesheet href=/css/flag-icon.min.css>
-<link href="https://fonts.googleapis.com/css2?family=Muli:wght@300;400;500;600" rel=stylesheet>
+<link rel=stylesheet href=/css/katex.min.css>
+<link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Muli:wght@300;400;500;600">
 <link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css>
 <link rel=icon type=image/png href=/images/author/dan_hu9475e40123017607cf3e014e405fbc8c_9664_42x0_resize_q75_box.jpg>
 <meta property="og:title" content="Search Results">
@@ -140,7 +141,9 @@ Dan Gillis</a>
 <div class="col-md-4 col-sm-12">
 <h5>Contact me:</h5>
 <ul>
-<li><span>Email: </span> <span>dan@dangillis.dev</span></li>
+<li><a href=mailto:dan@dangillis.dev target=_blank rel=noopener>
+<span><i class="fas fa-envelope"></i></span> <span>dan@dangillis.dev</span>
+</a></li>
 </ul>
 </div>
 </div>
@@ -169,6 +172,8 @@ Toha
 <script type=text/javascript src=/js/navbar.js></script>
 <script type=text/javascript src=/js/plyr.js></script>
 <script type=text/javascript src=/js/main.js></script>
+<script type=text/javascript defer src=/js/katex.min.js></script>
+<script type=text/javascript defer src=/js/auto-render.min.js onload=renderMathInElement(document.body)></script>
 <script src=https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.0/fuse.min.js></script>
 <script src=https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js></script>
 <script src=https://gilcrest.github.io/js/search.js></script>
