@@ -1,398 +1,202 @@
-<!doctype html><html>
-<head>
-<title>HTTP JSON Error Responses in Go</title>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta http-equiv=x-ua-compatible content="ie=edge">
-<link rel=stylesheet href=/css/bootstrap.min.css>
-<link rel=stylesheet href=/css/layouts/main.css>
-<link rel=stylesheet href=/css/navigators/navbar.css>
-<link rel=stylesheet href=/css/plyr.css>
-<link rel=stylesheet href=/css/flag-icon.min.css>
-<link rel=stylesheet href=/css/katex.min.css>
-<link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Muli:wght@300;400;500;600">
-<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css>
-<link rel=icon type=image/png href=/images/author/dan_hu9475e40123017607cf3e014e405fbc8c_9664_42x0_resize_q75_box.jpg>
-<meta property="og:title" content="HTTP JSON Error Responses in Go">
-<meta property="og:description" content="HTTP JSON Error Responses in Go">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://gilcrest.github.io/posts/archive/http-json-error-responses/"><meta property="article:section" content="posts">
-<meta property="article:published_time" content="2018-03-18T07:10:00-04:00">
-<meta property="article:modified_time" content="2018-03-18T07:10:00-04:00">
-<meta name=description content="HTTP JSON Error Responses in Go">
-<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/atom-one-dark.min.css>
-<link rel=stylesheet href=/css/layouts/single.css>
-<link rel=stylesheet href=/css/navigators/sidebar.css>
-<link rel=stylesheet href=/css/style.css>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-WB0P084V1J"></script>
-<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','G-WB0P084V1J',{anonymize_ip:!1})}</script>
-</head>
-<body data-spy=scroll data-target=#TableOfContents data-offset=80>
-<div class="container-fluid bg-dimmed wrapper">
-<nav class="navbar navbar-expand-xl top-navbar final-navbar shadow">
-<div class=container>
-<button class="navbar-toggler navbar-light" id=sidebar-toggler type=button onclick=toggleSidebar()>
-<span class=navbar-toggler-icon></span>
-</button>
-<a class=navbar-brand href=/>
-<img src=/images/author/dan_hu9475e40123017607cf3e014e405fbc8c_9664_42x0_resize_q75_box.jpg alt=Logo>
+<!doctype html><html><head><title>HTTP JSON Error Responses in Go</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="ie=edge"><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/layouts/main.css><link rel=stylesheet href=/css/navigators/navbar.css><link rel=stylesheet href=/css/plyr.css><link rel=stylesheet href=/css/flag-icon.min.css><link rel=stylesheet href=/css/katex.min.css><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Muli:wght@300;400;500;600"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css><link rel=icon type=image/png href=/images/author/dan_hu9475e40123017607cf3e014e405fbc8c_9664_42x0_resize_q75_box.jpg><meta property="og:title" content="HTTP JSON Error Responses in Go"><meta property="og:description" content="HTTP JSON Error Responses in Go"><meta property="og:type" content="article"><meta property="og:url" content="https://gilcrest.github.io/posts/archive/http-json-error-responses/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2018-03-18T07:10:00-04:00"><meta property="article:modified_time" content="2018-03-18T07:10:00-04:00"><meta name=description content="HTTP JSON Error Responses in Go"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/atom-one-dark.min.css><link rel=stylesheet href=/css/layouts/single.css><link rel=stylesheet href=/css/navigators/sidebar.css><link rel=stylesheet href=/css/style.css><script async src="https://www.googletagmanager.com/gtag/js?id=G-WB0P084V1J"></script>
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-WB0P084V1J",{anonymize_ip:!1})}</script></head><body data-spy=scroll data-target=#TableOfContents data-offset=80><div class="container-fluid bg-dimmed wrapper"><nav class="navbar navbar-expand-xl top-navbar final-navbar shadow"><div class=container><button class="navbar-toggler navbar-light" id=sidebar-toggler type=button onclick=toggleSidebar()>
+<span class=navbar-toggler-icon></span></button>
+<a class=navbar-brand href=/><img src=/images/author/dan_hu9475e40123017607cf3e014e405fbc8c_9664_42x0_resize_q75_box.jpg alt=Logo>
 Dan Gillis</a>
 <button class="navbar-toggler navbar-light" id=toc-toggler type=button onclick=toggleTOC()>
-<span class=navbar-toggler-icon></span>
-</button>
-<div class="collapse navbar-collapse lang-selector" id=top-nav-items>
-<ul class="navbar-nav ml-auto">
-</ul>
-</div>
-</div>
-<img src=/images/author/dan_hu9475e40123017607cf3e014e405fbc8c_9664_42x0_resize_q75_box.jpg class=d-none id=main-logo alt=Logo>
-<img src=/images/author/dan_hu9475e40123017607cf3e014e405fbc8c_9664_42x0_resize_q75_box.jpg class=d-none id=inverted-logo alt="Inverted Logo">
-</nav>
-<section class=sidebar-section id=sidebar-section>
-<div class=sidebar-holder>
-<div class=sidebar id=sidebar>
-<form class=mx-auto method=get action=/search>
-<input type=text name=keyword placeholder=Search data-search id=search-box>
-</form>
-<div class=sidebar-tree>
-<ul class=tree id=tree>
-<li id=list-heading><a href=/posts data-filter=all>Posts</a></li>
-<div class=subtree>
-<li><a href=/posts/logging/ title="Logging in go-api-basic">Logging in go-api-basic</a></li>
-<li><a href=/posts/errors/ title="REST API Error Handling in Go">REST API Error Handling in Go</a></li>
-<li><a href=/posts/gopherhole/ title="Emerging from my Gopher Hole">Emerging from my Gopher Hole</a></li>
-<li><a href=/posts/conversion/ title="Jekyll to Hugo Conversion">Jekyll to Hugo Conversion</a></li>
-<li>
-<i class="fas fa-minus-circle"></i><a class=active href=/posts/archive/>Archive</a>
-<ul class=active>
-<li><a href=/posts/archive/http-logging-and-go-api-template-updates/ title="HTTP Logging and Go API Template Updates">HTTP Logging and Go API Template Updates</a></li>
-<li><a href=/posts/archive/basic-redis-examples/ title="Basic Redis Examples with Go">Basic Redis Examples with Go</a></li>
-<li><a href=/posts/archive/containerize-go-api/ title="Containerizing a Go API with Docker For Mac">Containerizing a Go API with Docker For Mac</a></li>
-<li><a class=active href=/posts/archive/http-json-error-responses/ title="HTTP JSON Error Responses in Go">HTTP JSON Error Responses in Go</a></li>
-<li><a href=/posts/archive/king-crimson-red/ title="Drums - King Crimson Red Live @ Great Scott">Drums - King Crimson Red Live @ Great Scott</a></li>
-<li><a href=/posts/archive/go-api-template/ title="Go API Template v0.0.2">Go API Template v0.0.2</a></li>
-<li><a href=/posts/archive/go/ title=Go>Go</a></li>
-<li><a href=/posts/archive/frankenstein/ title="Drums - Frankenstein Practice">Drums - Frankenstein Practice</a></li>
-<li><a href=/posts/archive/osx-oracle-node-setup/ title="OS X Oracle + Node setup">OS X Oracle + Node setup</a></li>
-<li><a href=/posts/archive/drums-raju-live/ title="Drums - Raju Live">Drums - Raju Live</a></li>
-<li><a href=/posts/archive/apex-minimize/ title="Apex 5 - Minimize Left Sidebar">Apex 5 - Minimize Left Sidebar</a></li>
-<li><a href=/posts/archive/raiser/ title=Raiser>Raiser</a></li>
-<li>
-<i class="fas fa-plus-circle"></i><a href=/posts/archive/node-oracle-glory/>Node Oracle Glory</a>
-<ul>
-<li><a href=/posts/archive/node-oracle-glory/volume-3/ title="Volume 3">Volume 3</a></li>
-<li><a href=/posts/archive/node-oracle-glory/volume-2/ title="Volume 2">Volume 2</a></li>
-<li><a href=/posts/archive/node-oracle-glory/volume-1/ title="Volume 1">Volume 1</a></li>
-</ul>
-</li>
-<li><a href=/posts/archive/name-value-encryption/ title="Name:Value Encryption Utility using PL/SQL">Name:Value Encryption Utility using PL/SQL</a></li>
-</ul>
-</li>
-</div>
-</ul>
-</div>
-</div>
-</div>
-</section>
-<section class=content-section id=content-section>
-<div class=content>
-<div class="container p-0 read-area">
-<div class="hero-area col-sm-12" id=hero-area style=background-image:url(https://gilcrest.github.io/images/default-hero.jpg)>
-</div>
-<div class=page-content>
-<div class="author-profile ml-auto align-self-lg-center">
-<img class=rounded-circle src=/images/author/dan_hu9475e40123017607cf3e014e405fbc8c_9664_120x120_fit_q75_box.jpg alt="Author Image">
-<h5 class=author-name>Dan Gillis</h5>
-<p>Sunday, March 18, 2018</p>
-</div>
-<div class=title>
-<h1>HTTP JSON Error Responses in Go</h1>
-</div>
-<div class=post-content id=post-content>
-<p>I like simple structured messages using JSON in error responses, similar to <a href=https://stripe.com/docs/api#errors>Stripe</a>, <a href=https://developer.uber.com/docs/riders/guides/errors>Uber</a> and many others…</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json>{
-    <span style=color:#f92672>&#34;error&#34;</span>: {
-        <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;validation_failed&#34;</span>,
-        <span style=color:#f92672>&#34;message&#34;</span>: <span style=color:#e6db74>&#34;Username is a required field&#34;</span>
-    }
-}
-</code></pre></div><p>In my last story, I wrote about HTTP Logging and in that I mentioned that I have used “chained” middleware using the Adapter pattern from <a href="https://medium.com/u/f25c357b8e4c?source=post_page-----29fac10a7036--------------------------------">Mat Ryer</a>’s excellent <a href=https://medium.com/@matryer/writing-middleware-in-golang-and-how-go-makes-it-so-much-fun-4375c1246e81>post</a>. You’ll see that below, but also in addition, I’m wrapping my final true app handler (in this case, CreateUser) inside an ErrHandler type — eh.ErrHandler{Env: env, H: handler.CreateUser} (you’ll note I’m passing in a global environment type as well). I’m doing this based on another great article by <a href=https://github.com/elithrar>Matt Silverlock</a> on his blog <a href=http://blog.questionable.services/article/http-handler-error-handling-revisited/>here</a>.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>dispatch</span>
-
-<span style=color:#f92672>import</span> (
-    <span style=color:#e6db74>&#34;github.com/gilcrest/go-API-template/appUser/handler&#34;</span>
-    <span style=color:#e6db74>&#34;github.com/gilcrest/go-API-template/env&#34;</span>
-    <span style=color:#a6e22e>eh</span> <span style=color:#e6db74>&#34;github.com/gilcrest/go-API-template/server/errorHandler&#34;</span>
-    <span style=color:#e6db74>&#34;github.com/gilcrest/go-API-template/server/middleware&#34;</span>
-    <span style=color:#e6db74>&#34;github.com/gorilla/mux&#34;</span>
-)
-
-<span style=color:#75715e>// Dispatch is a way of organizing routing to handlers (versioning as well)
-</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>Dispatch</span>(<span style=color:#a6e22e>env</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>env</span>.<span style=color:#a6e22e>Env</span>, <span style=color:#a6e22e>rtr</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>mux</span>.<span style=color:#a6e22e>Router</span>) <span style=color:#f92672>*</span><span style=color:#a6e22e>mux</span>.<span style=color:#a6e22e>Router</span> {
-
-    <span style=color:#75715e>// initialize new instance of APIAudit
-</span><span style=color:#75715e></span>    <span style=color:#a6e22e>audit</span> <span style=color:#f92672>:=</span> new(<span style=color:#a6e22e>middleware</span>.<span style=color:#a6e22e>APIAudit</span>)
-
-    <span style=color:#75715e>// match only POST requests on /api/appUser/create
-</span><span style=color:#75715e></span>    <span style=color:#75715e>// This is the original (v1) version for the API and the response for this
-</span><span style=color:#75715e></span>    <span style=color:#75715e>// will never change with versioning in order to maintain a stable contract
-</span><span style=color:#75715e></span>    <span style=color:#a6e22e>rtr</span>.<span style=color:#a6e22e>Handle</span>(<span style=color:#e6db74>&#34;/appUser&#34;</span>, <span style=color:#a6e22e>middleware</span>.<span style=color:#a6e22e>Adapt</span>(<span style=color:#a6e22e>eh</span>.<span style=color:#a6e22e>ErrHandler</span>{<span style=color:#a6e22e>Env</span>: <span style=color:#a6e22e>env</span>, <span style=color:#a6e22e>H</span>: <span style=color:#a6e22e>handler</span>.<span style=color:#a6e22e>CreateUser</span>}, <span style=color:#a6e22e>middleware</span>.<span style=color:#a6e22e>LogRequest</span>(<span style=color:#a6e22e>env</span>, <span style=color:#a6e22e>audit</span>), <span style=color:#a6e22e>middleware</span>.<span style=color:#a6e22e>LogResponse</span>(<span style=color:#a6e22e>env</span>, <span style=color:#a6e22e>audit</span>))).
-        <span style=color:#a6e22e>Methods</span>(<span style=color:#e6db74>&#34;POST&#34;</span>).
-        <span style=color:#a6e22e>Headers</span>(<span style=color:#e6db74>&#34;Content-Type&#34;</span>, <span style=color:#e6db74>&#34;application/json&#34;</span>)
-
-    <span style=color:#75715e>// match only POST requests on /api/v1/appUser/create
-</span><span style=color:#75715e></span>    <span style=color:#a6e22e>rtr</span>.<span style=color:#a6e22e>Handle</span>(<span style=color:#e6db74>&#34;/v1/appUser&#34;</span>, <span style=color:#a6e22e>middleware</span>.<span style=color:#a6e22e>Adapt</span>(<span style=color:#a6e22e>eh</span>.<span style=color:#a6e22e>ErrHandler</span>{<span style=color:#a6e22e>Env</span>: <span style=color:#a6e22e>env</span>, <span style=color:#a6e22e>H</span>: <span style=color:#a6e22e>handler</span>.<span style=color:#a6e22e>CreateUser</span>}, <span style=color:#a6e22e>middleware</span>.<span style=color:#a6e22e>LogRequest</span>(<span style=color:#a6e22e>env</span>, <span style=color:#a6e22e>audit</span>), <span style=color:#a6e22e>middleware</span>.<span style=color:#a6e22e>LogResponse</span>(<span style=color:#a6e22e>env</span>, <span style=color:#a6e22e>audit</span>))).
-        <span style=color:#a6e22e>Methods</span>(<span style=color:#e6db74>&#34;POST&#34;</span>).
-        <span style=color:#a6e22e>Headers</span>(<span style=color:#e6db74>&#34;Content-Type&#34;</span>, <span style=color:#e6db74>&#34;application/json&#34;</span>)
-
-    <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>rtr</span>
-}
-</code></pre></div><p>I’m using Matt’s article almost word for word for error handling, but made a few tweaks so that I could return a structured JSON response. The package is below:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>errorHandler</span>
-
-<span style=color:#f92672>import</span> (
-    <span style=color:#e6db74>&#34;encoding/json&#34;</span>
-    <span style=color:#e6db74>&#34;errors&#34;</span>
-    <span style=color:#e6db74>&#34;net/http&#34;</span>
-
-    <span style=color:#e6db74>&#34;github.com/gilcrest/go-API-template/env&#34;</span>
-)
-
-<span style=color:#75715e>// Error represents a handler error. It provides methods for a HTTP status
-</span><span style=color:#75715e>// code and embeds the built-in error interface.
-</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Error</span> <span style=color:#66d9ef>interface</span> {
-    <span style=color:#66d9ef>error</span>
-    <span style=color:#a6e22e>Status</span>() <span style=color:#66d9ef>int</span>
-    <span style=color:#a6e22e>ErrType</span>() <span style=color:#66d9ef>string</span>
-}
-
-<span style=color:#75715e>// HTTPErr represents an error with an associated HTTP status code.
-</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>HTTPErr</span> <span style=color:#66d9ef>struct</span> {
-    <span style=color:#a6e22e>Code</span> <span style=color:#66d9ef>int</span>
-    <span style=color:#a6e22e>Type</span> <span style=color:#66d9ef>string</span>
-    <span style=color:#a6e22e>Err</span>  <span style=color:#66d9ef>error</span>
-}
-
-<span style=color:#75715e>// Allows HTTPErr to satisfy the error interface.
-</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>hse</span> <span style=color:#a6e22e>HTTPErr</span>) <span style=color:#a6e22e>Error</span>() <span style=color:#66d9ef>string</span> {
-    <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>hse</span>.<span style=color:#a6e22e>Err</span>.<span style=color:#a6e22e>Error</span>()
-}
-
-<span style=color:#75715e>// SetErr creates an error type and adds it to the struct
-</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>hse</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>HTTPErr</span>) <span style=color:#a6e22e>SetErr</span>(<span style=color:#a6e22e>s</span> <span style=color:#66d9ef>string</span>) {
-    <span style=color:#a6e22e>hse</span>.<span style=color:#a6e22e>Err</span> = <span style=color:#a6e22e>errors</span>.<span style=color:#a6e22e>New</span>(<span style=color:#a6e22e>s</span>)
-}
-
-<span style=color:#75715e>// ErrType returns a string error type/code
-</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>hse</span> <span style=color:#a6e22e>HTTPErr</span>) <span style=color:#a6e22e>ErrType</span>() <span style=color:#66d9ef>string</span> {
-    <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>hse</span>.<span style=color:#a6e22e>Type</span>
-}
-
-<span style=color:#75715e>// Status Returns an HTTP status code.
-</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>hse</span> <span style=color:#a6e22e>HTTPErr</span>) <span style=color:#a6e22e>Status</span>() <span style=color:#66d9ef>int</span> {
-    <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>hse</span>.<span style=color:#a6e22e>Code</span>
-}
-
-<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>errResponse</span> <span style=color:#66d9ef>struct</span> {
-    <span style=color:#a6e22e>Error</span> <span style=color:#a6e22e>svcError</span> <span style=color:#e6db74>`json:&#34;error&#34;`</span>
-}
-
-<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>svcError</span> <span style=color:#66d9ef>struct</span> {
-    <span style=color:#a6e22e>Type</span>    <span style=color:#66d9ef>string</span> <span style=color:#e6db74>`json:&#34;type&#34;`</span>
-    <span style=color:#a6e22e>Message</span> <span style=color:#66d9ef>string</span> <span style=color:#e6db74>`json:&#34;message&#34;`</span>
-}
-
-<span style=color:#75715e>// The ErrHandler struct that takes a configured Env and a function matching
-</span><span style=color:#75715e>// our useful signature.
-</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>ErrHandler</span> <span style=color:#66d9ef>struct</span> {
-    <span style=color:#a6e22e>Env</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>env</span>.<span style=color:#a6e22e>Env</span>
-    <span style=color:#a6e22e>H</span>   <span style=color:#66d9ef>func</span>(<span style=color:#a6e22e>e</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>env</span>.<span style=color:#a6e22e>Env</span>, <span style=color:#a6e22e>w</span> <span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>ResponseWriter</span>, <span style=color:#a6e22e>r</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>Request</span>) <span style=color:#66d9ef>error</span>
-}
-
-<span style=color:#75715e>// ServeHTTP allows Handler type to satisfy the http.Handler interface
-</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>h</span> <span style=color:#a6e22e>ErrHandler</span>) <span style=color:#a6e22e>ServeHTTP</span>(<span style=color:#a6e22e>w</span> <span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>ResponseWriter</span>, <span style=color:#a6e22e>r</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>Request</span>) {
-
-    <span style=color:#75715e>// Get a new logger instance
-</span><span style=color:#75715e></span>    <span style=color:#a6e22e>log</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>h</span>.<span style=color:#a6e22e>Env</span>.<span style=color:#a6e22e>Logger</span>
-
-    <span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Debug</span>().<span style=color:#a6e22e>Msg</span>(<span style=color:#e6db74>&#34;Start Handler.ServeHTTP&#34;</span>)
-    <span style=color:#66d9ef>defer</span> <span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Debug</span>().<span style=color:#a6e22e>Msg</span>(<span style=color:#e6db74>&#34;Finish Handler.ServeHTTP&#34;</span>)
-
-    <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>h</span>.<span style=color:#a6e22e>H</span>(<span style=color:#a6e22e>h</span>.<span style=color:#a6e22e>Env</span>, <span style=color:#a6e22e>w</span>, <span style=color:#a6e22e>r</span>)
-
-    <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
-        <span style=color:#75715e>// We perform a &#34;type switch&#34; https://tour.golang.org/methods/16
-</span><span style=color:#75715e></span>        <span style=color:#75715e>// to determine the interface value type
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>switch</span> <span style=color:#a6e22e>e</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>err</span>.(<span style=color:#66d9ef>type</span>) {
-        <span style=color:#75715e>// If the interface value is of type Error (not a typical error, but
-</span><span style=color:#75715e></span>        <span style=color:#75715e>// the Error interface defined above), then
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>case</span> <span style=color:#a6e22e>Error</span>:
-            <span style=color:#75715e>// We can retrieve the status here and write out a specific
-</span><span style=color:#75715e></span>            <span style=color:#75715e>// HTTP status code.
-</span><span style=color:#75715e></span>            <span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Printf</span>(<span style=color:#e6db74>&#34;HTTP %d - %s&#34;</span>, <span style=color:#a6e22e>e</span>.<span style=color:#a6e22e>Status</span>(), <span style=color:#a6e22e>e</span>)
-
-            <span style=color:#a6e22e>er</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>errResponse</span>{
-                <span style=color:#a6e22e>Error</span>: <span style=color:#a6e22e>svcError</span>{
-                    <span style=color:#a6e22e>Type</span>:    <span style=color:#a6e22e>e</span>.<span style=color:#a6e22e>ErrType</span>(),
-                    <span style=color:#a6e22e>Message</span>: <span style=color:#a6e22e>e</span>.<span style=color:#a6e22e>Error</span>(),
-                },
-            }
-
-            <span style=color:#75715e>// Marshal errResponse struct to JSON for the response body
-</span><span style=color:#75715e></span>            <span style=color:#a6e22e>errJSON</span>, <span style=color:#a6e22e>_</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>json</span>.<span style=color:#a6e22e>MarshalIndent</span>(<span style=color:#a6e22e>er</span>, <span style=color:#e6db74>&#34;&#34;</span>, <span style=color:#e6db74>&#34;    &#34;</span>)
-
-            <span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>Error</span>(<span style=color:#a6e22e>w</span>, string(<span style=color:#a6e22e>errJSON</span>), <span style=color:#a6e22e>e</span>.<span style=color:#a6e22e>Status</span>())
-
-        <span style=color:#66d9ef>default</span>:
-            <span style=color:#75715e>// Any error types we don&#39;t specifically look out for default
-</span><span style=color:#75715e></span>            <span style=color:#75715e>// to serving a HTTP 500
-</span><span style=color:#75715e></span>            <span style=color:#a6e22e>cd</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>StatusInternalServerError</span>
-            <span style=color:#a6e22e>er</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>errResponse</span>{
-                <span style=color:#a6e22e>Error</span>: <span style=color:#a6e22e>svcError</span>{
-                    <span style=color:#a6e22e>Type</span>:    <span style=color:#e6db74>&#34;unknown_error&#34;</span>,
-                    <span style=color:#a6e22e>Message</span>: <span style=color:#e6db74>&#34;Unexpected error - contact support&#34;</span>,
-                },
-            }
-
-            <span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Error</span>().<span style=color:#a6e22e>Msgf</span>(<span style=color:#e6db74>&#34;Unknown Error - HTTP %d - %s&#34;</span>, <span style=color:#a6e22e>cd</span>, <span style=color:#a6e22e>err</span>.<span style=color:#a6e22e>Error</span>())
-
-            <span style=color:#75715e>// Marshal errResponse struct to JSON for the response body
-</span><span style=color:#75715e></span>            <span style=color:#a6e22e>errJSON</span>, <span style=color:#a6e22e>_</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>json</span>.<span style=color:#a6e22e>MarshalIndent</span>(<span style=color:#a6e22e>er</span>, <span style=color:#e6db74>&#34;&#34;</span>, <span style=color:#e6db74>&#34;    &#34;</span>)
-
-            <span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>Error</span>(<span style=color:#a6e22e>w</span>, string(<span style=color:#a6e22e>errJSON</span>), <span style=color:#a6e22e>cd</span>)
-        }
-    }
-
-}
-</code></pre></div><p>I renamed the StatusError struct to HTTPErr and added Type (string) as a field to it. I then added an ErrType() method to the Error interface and to the HTTPErr struct in order to be able to extract the Type field. I added a couple of structs to help form the JSON (errResponse and svcError) in the manner I wanted and then populate and marshal those structs into JSON within the type switch logic. That’s it, really — Matt did all the heavy lifting, I just added some bits that I thought were helpful for my purposes.</p>
-<p>This whole thing makes error handling pretty nice though — given the wrapper logic, you’ll always return a pretty good looking error. When creating errors within your app, you don’t have to have every error take this form — you can return normal errors lower down in the code and, depending on how you organize your code, you can catch and form the HTTPErr at a very high level so you’re not having to deal with populating a cumbersome struct all the way throughout your code. The below basically assumes that the usr.Create method is doing validations and as such we can add the “validation_failed” type to all errors returned from this method.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#a6e22e>tx</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>usr</span>.<span style=color:#a6e22e>Create</span>(<span style=color:#a6e22e>ctx</span>, <span style=color:#a6e22e>env</span>)
-<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
-    <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>errorHandler</span>.<span style=color:#a6e22e>HTTPErr</span>{
-        <span style=color:#a6e22e>Code</span>: <span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>StatusBadRequest</span>,
-        <span style=color:#a6e22e>Type</span>: <span style=color:#e6db74>&#34;validation_failed&#34;</span>,
-        <span style=color:#a6e22e>Err</span>:  <span style=color:#a6e22e>err</span>,
-    }
-}
-</code></pre></div><p>I also added a SetErr method to the HTTPErr struct, which allows you to initialize the struct with some default values and add the actual error on the fly. For instance, below as part of my super high level edit checks on my service inputs, I initialize the HTTPErr object at the beginning of my function and then perform my edit checks to allow for brevity in error creation.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>newUser</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#a6e22e>context</span>.<span style=color:#a6e22e>Context</span>, <span style=color:#a6e22e>env</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>env</span>.<span style=color:#a6e22e>Env</span>, <span style=color:#a6e22e>cur</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>createUserRequest</span>) (<span style=color:#f92672>*</span><span style=color:#a6e22e>appUser</span>.<span style=color:#a6e22e>User</span>, <span style=color:#66d9ef>error</span>) {
-<span style=color:#75715e>// declare a new instance of appUser.User
-</span><span style=color:#75715e></span><span style=color:#a6e22e>usr</span> <span style=color:#f92672>:=</span> new(<span style=color:#a6e22e>appUser</span>.<span style=color:#a6e22e>User</span>)
-<span style=color:#75715e>// initialize an errorHandler with the default Code and Type for
-</span><span style=color:#75715e>// service validations (Err is set to nil as it will be set later)
-</span><span style=color:#75715e></span><span style=color:#a6e22e>e</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>errorHandler</span>.<span style=color:#a6e22e>HTTPErr</span>{
-    <span style=color:#a6e22e>Code</span>: <span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>StatusBadRequest</span>,
-    <span style=color:#a6e22e>Type</span>: <span style=color:#e6db74>&#34;validation_error&#34;</span>,
-    <span style=color:#a6e22e>Err</span>:  <span style=color:#66d9ef>nil</span>,
-}
-<span style=color:#75715e>// for each field you can go through whatever validations you wish
-</span><span style=color:#75715e>// and use the SetErr method of the HTTPErr struct to add the proper
-</span><span style=color:#75715e>// error text
-</span><span style=color:#75715e></span><span style=color:#66d9ef>switch</span> {
-<span style=color:#75715e>// Username is required
-</span><span style=color:#75715e></span><span style=color:#66d9ef>case</span> <span style=color:#a6e22e>cur</span>.<span style=color:#a6e22e>Username</span> <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;&#34;</span>:
-    <span style=color:#a6e22e>e</span>.<span style=color:#a6e22e>SetErr</span>(<span style=color:#e6db74>&#34;Username is a required field&#34;</span>)
-    <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>, <span style=color:#a6e22e>e</span>
-<span style=color:#75715e>// Username cannot be blah...
-</span><span style=color:#75715e></span><span style=color:#66d9ef>case</span> <span style=color:#a6e22e>cur</span>.<span style=color:#a6e22e>Username</span> <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;blah&#34;</span>:
-    <span style=color:#a6e22e>e</span>.<span style=color:#a6e22e>SetErr</span>(<span style=color:#e6db74>&#34;Username cannot be blah&#34;</span>)
-    <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>, <span style=color:#a6e22e>e</span>
-<span style=color:#75715e>// If we get through the switch, set the field
-</span><span style=color:#75715e></span><span style=color:#66d9ef>default</span>:
-    <span style=color:#a6e22e>usr</span>.<span style=color:#a6e22e>Username</span> = <span style=color:#a6e22e>cur</span>.<span style=color:#a6e22e>Username</span>
-}
-<span style=color:#f92672>...</span>..
-</code></pre></div><p>That’s it for now — I should note that Rob Pike and Andrew Gerrand authored a great <a href=https://commandcenter.blogspot.com/2017/12/error-handling-in-upspin.html>post</a> on error handling that is likely amazing. I need to ingest that and see how I can fold that into this as well…</p>
-</div>
-<div class="row pl-3 pr-3">
-<div class="col-md-6 share-buttons">
-</div>
-<div class="col-md-6 btn-improve-page">
-<a href=https://github.com/gilcrest/gilcrest.github.io/edit/source/content/posts/archive/http-json-error-responses/index.md title="Improve this page" target=_blank rel=noopener>
-<i class="fas fa-code-branch"></i>
-Improve this page
-</a>
-</div>
-</div>
-<hr>
-<div class="row next-prev-navigator">
-<div class="col-md-6 previous-article">
-<a href=/posts/archive/containerize-go-api/ title="Containerizing a Go API with Docker For Mac" class="btn btn-outline-info">
-<div><i class="fas fa-chevron-circle-left"></i> Prev</div>
-<div class=next-prev-text>Containerizing a Go API with Docker For Mac</div>
-</a>
-</div>
-<div class="col-md-6 next-article">
-<a href=/posts/archive/king-crimson-red/ title="Drums: King Crimson Red Live @ Great Scott" class="btn btn-outline-info">
-<div>Next <i class="fas fa-chevron-circle-right"></i></div>
-<div class=next-prev-text>Drums: King Crimson Red Live @ Great Scott</div>
-</a>
-</div>
-</div>
-<hr>
-<div id=disqus_thread></div>
-<script type=text/javascript>(function(){var a,b;if(window.location.hostname=="localhost")return;a=document.createElement("script"),a.type="text/javascript",a.async=!0,b="dangillis",a.src="//"+b+".disqus.com/embed.js",(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)})()</script>
-<noscript>Please enable JavaScript to view the
-<a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
-<a href=https://disqus.com/ class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
-</div>
-</div>
-</div>
-<a id=scroll-to-top class=btn><i class="fas fa-chevron-circle-up"></i></a>
-</section>
-<section class=toc-section id=toc-section>
-<div class=toc-holder>
-<h5 class="text-center pl-3">Table of Contents</h5>
-<hr>
-<div class=toc>
-<nav id=TableOfContents></nav>
-</div>
-</div>
-</section>
-</div>
-<footer class="container-fluid text-center align-content-center footer pb-2">
-<div class="container pt-5">
-<div class="row text-left">
-<div class="col-md-4 col-sm-12">
-<h5>Navigation</h5>
-<ul>
-<li class=nav-item>
-<a class=smooth-scroll href=https://gilcrest.github.io#about>About</a>
-</li>
-<li class=nav-item>
-<a class=smooth-scroll href=https://gilcrest.github.io#recent-posts>Recent Posts</a>
-</li>
-</ul>
-</div>
-<div class="col-md-4 col-sm-12">
-<h5>Contact me:</h5>
-<ul>
-<li><a href=mailto:dan@dangillis.dev target=_blank rel=noopener>
-<span><i class="fas fa-envelope"></i></span> <span>dan@dangillis.dev</span>
-</a></li>
-</ul>
-</div>
-</div>
-</div>
-<hr>
-<div class=container>
-<div class="row text-left">
-<div class=col-md-4>
-<a id=theme href=https://github.com/hossainemruz/toha target=_blank rel=noopener>
-<img src=/images/theme-logo_hu8376fd15465fef26ffe66b6bcf0ca686_13669_32x0_resize_box_3.png alt="Toha Theme Logo">
-Toha
-</a>
-</div>
-<div class="col-md-4 text-center">© 2021 Copyright.</div>
-<div class="col-md-4 text-right">
-<a id=hugo href=https://gohugo.io/ target=_blank rel=noopener>Powered by
-<img src=/images/hugo-logo.svg alt="Hugo Logo" height=18>
-</a>
-</div>
-</div>
-</div>
-</footer>
-<script type=text/javascript src=/js/jquery-3.4.1.min.js></script>
+<span class=navbar-toggler-icon></span></button><div class="collapse navbar-collapse lang-selector" id=top-nav-items><ul class="navbar-nav ml-auto"></ul></div></div><img src=/images/author/dan_hu9475e40123017607cf3e014e405fbc8c_9664_42x0_resize_q75_box.jpg class=d-none id=main-logo alt=Logo>
+<img src=/images/author/dan_hu9475e40123017607cf3e014e405fbc8c_9664_42x0_resize_q75_box.jpg class=d-none id=inverted-logo alt="Inverted Logo"></nav><section class=sidebar-section id=sidebar-section><div class=sidebar-holder><div class=sidebar id=sidebar><form class=mx-auto method=get action=/search><input type=text name=keyword placeholder=Search data-search id=search-box></form><div class=sidebar-tree><ul class=tree id=tree><li id=list-heading><a href=/posts data-filter=all>Posts</a></li><div class=subtree><li><a href=/posts/logging/ title="Logging in go-api-basic">Logging in go-api-basic</a></li><li><a href=/posts/errors/ title="REST API Error Handling in Go">REST API Error Handling in Go</a></li><li><a href=/posts/gopherhole/ title="Emerging from my Gopher Hole">Emerging from my Gopher Hole</a></li><li><a href=/posts/conversion/ title="Jekyll to Hugo Conversion">Jekyll to Hugo Conversion</a></li><li><i class="fas fa-minus-circle"></i><a class=active href=/posts/archive/>Archive</a><ul class=active><li><a href=/posts/archive/http-logging-and-go-api-template-updates/ title="HTTP Logging and Go API Template Updates">HTTP Logging and Go API Template Updates</a></li><li><a href=/posts/archive/basic-redis-examples/ title="Basic Redis Examples with Go">Basic Redis Examples with Go</a></li><li><a href=/posts/archive/containerize-go-api/ title="Containerizing a Go API with Docker For Mac">Containerizing a Go API with Docker For Mac</a></li><li><a class=active href=/posts/archive/http-json-error-responses/ title="HTTP JSON Error Responses in Go">HTTP JSON Error Responses in Go</a></li><li><a href=/posts/archive/king-crimson-red/ title="Drums - King Crimson Red Live @ Great Scott">Drums - King Crimson Red Live @ Great Scott</a></li><li><a href=/posts/archive/go-api-template/ title="Go API Template v0.0.2">Go API Template v0.0.2</a></li><li><a href=/posts/archive/go/ title=Go>Go</a></li><li><a href=/posts/archive/frankenstein/ title="Drums - Frankenstein Practice">Drums - Frankenstein Practice</a></li><li><a href=/posts/archive/osx-oracle-node-setup/ title="OS X Oracle + Node setup">OS X Oracle + Node setup</a></li><li><a href=/posts/archive/drums-raju-live/ title="Drums - Raju Live">Drums - Raju Live</a></li><li><a href=/posts/archive/apex-minimize/ title="Apex 5 - Minimize Left Sidebar">Apex 5 - Minimize Left Sidebar</a></li><li><a href=/posts/archive/raiser/ title=Raiser>Raiser</a></li><li><i class="fas fa-plus-circle"></i><a href=/posts/archive/node-oracle-glory/>Node Oracle Glory</a><ul><li><a href=/posts/archive/node-oracle-glory/volume-3/ title="Volume 3">Volume 3</a></li><li><a href=/posts/archive/node-oracle-glory/volume-2/ title="Volume 2">Volume 2</a></li><li><a href=/posts/archive/node-oracle-glory/volume-1/ title="Volume 1">Volume 1</a></li></ul></li><li><a href=/posts/archive/name-value-encryption/ title="Name:Value Encryption Utility using PL/SQL">Name:Value Encryption Utility using PL/SQL</a></li></ul></li></div></ul></div></div></div></section><section class=content-section id=content-section><div class=content><div class="container p-0 read-area"><div class="hero-area col-sm-12" id=hero-area style=background-image:url(https://gilcrest.github.io/images/default-hero.jpg)></div><div class=page-content><div class="author-profile ml-auto align-self-lg-center"><img class=rounded-circle src=/images/author/dan_hu9475e40123017607cf3e014e405fbc8c_9664_120x120_fit_q75_box.jpg alt="Author Image"><h5 class=author-name>Dan Gillis</h5><p>Sunday, March 18, 2018</p></div><div class=title><h1>HTTP JSON Error Responses in Go</h1></div><div class=post-content id=post-content><p>I like simple structured messages using JSON in error responses, similar to <a href=https://stripe.com/docs/api#errors>Stripe</a>, <a href=https://developer.uber.com/docs/riders/guides/errors>Uber</a> and many others…</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;error&#34;</span>: {
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;validation_failed&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;message&#34;</span>: <span style=color:#e6db74>&#34;Username is a required field&#34;</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>In my last story, I wrote about HTTP Logging and in that I mentioned that I have used “chained” middleware using the Adapter pattern from <a href="https://medium.com/u/f25c357b8e4c?source=post_page-----29fac10a7036--------------------------------">Mat Ryer</a>’s excellent <a href=https://medium.com/@matryer/writing-middleware-in-golang-and-how-go-makes-it-so-much-fun-4375c1246e81>post</a>. You’ll see that below, but also in addition, I’m wrapping my final true app handler (in this case, CreateUser) inside an ErrHandler type — eh.ErrHandler{Env: env, H: handler.CreateUser} (you’ll note I’m passing in a global environment type as well). I’m doing this based on another great article by <a href=https://github.com/elithrar>Matt Silverlock</a> on his blog <a href=http://blog.questionable.services/article/http-handler-error-handling-revisited/>here</a>.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=display:flex><span><span style=color:#f92672>package</span> <span style=color:#a6e22e>dispatch</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> (
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;github.com/gilcrest/go-API-template/appUser/handler&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;github.com/gilcrest/go-API-template/env&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>eh</span> <span style=color:#e6db74>&#34;github.com/gilcrest/go-API-template/server/errorHandler&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;github.com/gilcrest/go-API-template/server/middleware&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;github.com/gorilla/mux&#34;</span>
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// Dispatch is a way of organizing routing to handlers (versioning as well)
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>Dispatch</span>(<span style=color:#a6e22e>env</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>env</span>.<span style=color:#a6e22e>Env</span>, <span style=color:#a6e22e>rtr</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>mux</span>.<span style=color:#a6e22e>Router</span>) <span style=color:#f92672>*</span><span style=color:#a6e22e>mux</span>.<span style=color:#a6e22e>Router</span> {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// initialize new instance of APIAudit
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#a6e22e>audit</span> <span style=color:#f92672>:=</span> new(<span style=color:#a6e22e>middleware</span>.<span style=color:#a6e22e>APIAudit</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// match only POST requests on /api/appUser/create
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#75715e>// This is the original (v1) version for the API and the response for this
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#75715e>// will never change with versioning in order to maintain a stable contract
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#a6e22e>rtr</span>.<span style=color:#a6e22e>Handle</span>(<span style=color:#e6db74>&#34;/appUser&#34;</span>, <span style=color:#a6e22e>middleware</span>.<span style=color:#a6e22e>Adapt</span>(<span style=color:#a6e22e>eh</span>.<span style=color:#a6e22e>ErrHandler</span>{<span style=color:#a6e22e>Env</span>: <span style=color:#a6e22e>env</span>, <span style=color:#a6e22e>H</span>: <span style=color:#a6e22e>handler</span>.<span style=color:#a6e22e>CreateUser</span>}, <span style=color:#a6e22e>middleware</span>.<span style=color:#a6e22e>LogRequest</span>(<span style=color:#a6e22e>env</span>, <span style=color:#a6e22e>audit</span>), <span style=color:#a6e22e>middleware</span>.<span style=color:#a6e22e>LogResponse</span>(<span style=color:#a6e22e>env</span>, <span style=color:#a6e22e>audit</span>))).
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>Methods</span>(<span style=color:#e6db74>&#34;POST&#34;</span>).
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>Headers</span>(<span style=color:#e6db74>&#34;Content-Type&#34;</span>, <span style=color:#e6db74>&#34;application/json&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// match only POST requests on /api/v1/appUser/create
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#a6e22e>rtr</span>.<span style=color:#a6e22e>Handle</span>(<span style=color:#e6db74>&#34;/v1/appUser&#34;</span>, <span style=color:#a6e22e>middleware</span>.<span style=color:#a6e22e>Adapt</span>(<span style=color:#a6e22e>eh</span>.<span style=color:#a6e22e>ErrHandler</span>{<span style=color:#a6e22e>Env</span>: <span style=color:#a6e22e>env</span>, <span style=color:#a6e22e>H</span>: <span style=color:#a6e22e>handler</span>.<span style=color:#a6e22e>CreateUser</span>}, <span style=color:#a6e22e>middleware</span>.<span style=color:#a6e22e>LogRequest</span>(<span style=color:#a6e22e>env</span>, <span style=color:#a6e22e>audit</span>), <span style=color:#a6e22e>middleware</span>.<span style=color:#a6e22e>LogResponse</span>(<span style=color:#a6e22e>env</span>, <span style=color:#a6e22e>audit</span>))).
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>Methods</span>(<span style=color:#e6db74>&#34;POST&#34;</span>).
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>Headers</span>(<span style=color:#e6db74>&#34;Content-Type&#34;</span>, <span style=color:#e6db74>&#34;application/json&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>rtr</span>
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>I’m using Matt’s article almost word for word for error handling, but made a few tweaks so that I could return a structured JSON response. The package is below:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=display:flex><span><span style=color:#f92672>package</span> <span style=color:#a6e22e>errorHandler</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> (
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;encoding/json&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;errors&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;net/http&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;github.com/gilcrest/go-API-template/env&#34;</span>
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// Error represents a handler error. It provides methods for a HTTP status
+</span></span></span><span style=display:flex><span><span style=color:#75715e>// code and embeds the built-in error interface.
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Error</span> <span style=color:#66d9ef>interface</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>error</span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>Status</span>() <span style=color:#66d9ef>int</span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>ErrType</span>() <span style=color:#66d9ef>string</span>
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// HTTPErr represents an error with an associated HTTP status code.
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>HTTPErr</span> <span style=color:#66d9ef>struct</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>Code</span> <span style=color:#66d9ef>int</span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>Type</span> <span style=color:#66d9ef>string</span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>Err</span>  <span style=color:#66d9ef>error</span>
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// Allows HTTPErr to satisfy the error interface.
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>hse</span> <span style=color:#a6e22e>HTTPErr</span>) <span style=color:#a6e22e>Error</span>() <span style=color:#66d9ef>string</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>hse</span>.<span style=color:#a6e22e>Err</span>.<span style=color:#a6e22e>Error</span>()
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// SetErr creates an error type and adds it to the struct
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>hse</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>HTTPErr</span>) <span style=color:#a6e22e>SetErr</span>(<span style=color:#a6e22e>s</span> <span style=color:#66d9ef>string</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>hse</span>.<span style=color:#a6e22e>Err</span> = <span style=color:#a6e22e>errors</span>.<span style=color:#a6e22e>New</span>(<span style=color:#a6e22e>s</span>)
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// ErrType returns a string error type/code
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>hse</span> <span style=color:#a6e22e>HTTPErr</span>) <span style=color:#a6e22e>ErrType</span>() <span style=color:#66d9ef>string</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>hse</span>.<span style=color:#a6e22e>Type</span>
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// Status Returns an HTTP status code.
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>hse</span> <span style=color:#a6e22e>HTTPErr</span>) <span style=color:#a6e22e>Status</span>() <span style=color:#66d9ef>int</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>hse</span>.<span style=color:#a6e22e>Code</span>
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>errResponse</span> <span style=color:#66d9ef>struct</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>Error</span> <span style=color:#a6e22e>svcError</span> <span style=color:#e6db74>`json:&#34;error&#34;`</span>
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>svcError</span> <span style=color:#66d9ef>struct</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>Type</span>    <span style=color:#66d9ef>string</span> <span style=color:#e6db74>`json:&#34;type&#34;`</span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>Message</span> <span style=color:#66d9ef>string</span> <span style=color:#e6db74>`json:&#34;message&#34;`</span>
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// The ErrHandler struct that takes a configured Env and a function matching
+</span></span></span><span style=display:flex><span><span style=color:#75715e>// our useful signature.
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>ErrHandler</span> <span style=color:#66d9ef>struct</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>Env</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>env</span>.<span style=color:#a6e22e>Env</span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>H</span>   <span style=color:#66d9ef>func</span>(<span style=color:#a6e22e>e</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>env</span>.<span style=color:#a6e22e>Env</span>, <span style=color:#a6e22e>w</span> <span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>ResponseWriter</span>, <span style=color:#a6e22e>r</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>Request</span>) <span style=color:#66d9ef>error</span>
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// ServeHTTP allows Handler type to satisfy the http.Handler interface
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>h</span> <span style=color:#a6e22e>ErrHandler</span>) <span style=color:#a6e22e>ServeHTTP</span>(<span style=color:#a6e22e>w</span> <span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>ResponseWriter</span>, <span style=color:#a6e22e>r</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>Request</span>) {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// Get a new logger instance
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#a6e22e>log</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>h</span>.<span style=color:#a6e22e>Env</span>.<span style=color:#a6e22e>Logger</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Debug</span>().<span style=color:#a6e22e>Msg</span>(<span style=color:#e6db74>&#34;Start Handler.ServeHTTP&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>defer</span> <span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Debug</span>().<span style=color:#a6e22e>Msg</span>(<span style=color:#e6db74>&#34;Finish Handler.ServeHTTP&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>h</span>.<span style=color:#a6e22e>H</span>(<span style=color:#a6e22e>h</span>.<span style=color:#a6e22e>Env</span>, <span style=color:#a6e22e>w</span>, <span style=color:#a6e22e>r</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// We perform a &#34;type switch&#34; https://tour.golang.org/methods/16
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#75715e>// to determine the interface value type
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>switch</span> <span style=color:#a6e22e>e</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>err</span>.(<span style=color:#66d9ef>type</span>) {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// If the interface value is of type Error (not a typical error, but
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#75715e>// the Error interface defined above), then
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>case</span> <span style=color:#a6e22e>Error</span>:
+</span></span><span style=display:flex><span>            <span style=color:#75715e>// We can retrieve the status here and write out a specific
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>            <span style=color:#75715e>// HTTP status code.
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>            <span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Printf</span>(<span style=color:#e6db74>&#34;HTTP %d - %s&#34;</span>, <span style=color:#a6e22e>e</span>.<span style=color:#a6e22e>Status</span>(), <span style=color:#a6e22e>e</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            <span style=color:#a6e22e>er</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>errResponse</span>{
+</span></span><span style=display:flex><span>                <span style=color:#a6e22e>Error</span>: <span style=color:#a6e22e>svcError</span>{
+</span></span><span style=display:flex><span>                    <span style=color:#a6e22e>Type</span>:    <span style=color:#a6e22e>e</span>.<span style=color:#a6e22e>ErrType</span>(),
+</span></span><span style=display:flex><span>                    <span style=color:#a6e22e>Message</span>: <span style=color:#a6e22e>e</span>.<span style=color:#a6e22e>Error</span>(),
+</span></span><span style=display:flex><span>                },
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            <span style=color:#75715e>// Marshal errResponse struct to JSON for the response body
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>            <span style=color:#a6e22e>errJSON</span>, <span style=color:#a6e22e>_</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>json</span>.<span style=color:#a6e22e>MarshalIndent</span>(<span style=color:#a6e22e>er</span>, <span style=color:#e6db74>&#34;&#34;</span>, <span style=color:#e6db74>&#34;    &#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            <span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>Error</span>(<span style=color:#a6e22e>w</span>, string(<span style=color:#a6e22e>errJSON</span>), <span style=color:#a6e22e>e</span>.<span style=color:#a6e22e>Status</span>())
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>default</span>:
+</span></span><span style=display:flex><span>            <span style=color:#75715e>// Any error types we don&#39;t specifically look out for default
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>            <span style=color:#75715e>// to serving a HTTP 500
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>            <span style=color:#a6e22e>cd</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>StatusInternalServerError</span>
+</span></span><span style=display:flex><span>            <span style=color:#a6e22e>er</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>errResponse</span>{
+</span></span><span style=display:flex><span>                <span style=color:#a6e22e>Error</span>: <span style=color:#a6e22e>svcError</span>{
+</span></span><span style=display:flex><span>                    <span style=color:#a6e22e>Type</span>:    <span style=color:#e6db74>&#34;unknown_error&#34;</span>,
+</span></span><span style=display:flex><span>                    <span style=color:#a6e22e>Message</span>: <span style=color:#e6db74>&#34;Unexpected error - contact support&#34;</span>,
+</span></span><span style=display:flex><span>                },
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            <span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Error</span>().<span style=color:#a6e22e>Msgf</span>(<span style=color:#e6db74>&#34;Unknown Error - HTTP %d - %s&#34;</span>, <span style=color:#a6e22e>cd</span>, <span style=color:#a6e22e>err</span>.<span style=color:#a6e22e>Error</span>())
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            <span style=color:#75715e>// Marshal errResponse struct to JSON for the response body
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>            <span style=color:#a6e22e>errJSON</span>, <span style=color:#a6e22e>_</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>json</span>.<span style=color:#a6e22e>MarshalIndent</span>(<span style=color:#a6e22e>er</span>, <span style=color:#e6db74>&#34;&#34;</span>, <span style=color:#e6db74>&#34;    &#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            <span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>Error</span>(<span style=color:#a6e22e>w</span>, string(<span style=color:#a6e22e>errJSON</span>), <span style=color:#a6e22e>cd</span>)
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>I renamed the StatusError struct to HTTPErr and added Type (string) as a field to it. I then added an ErrType() method to the Error interface and to the HTTPErr struct in order to be able to extract the Type field. I added a couple of structs to help form the JSON (errResponse and svcError) in the manner I wanted and then populate and marshal those structs into JSON within the type switch logic. That’s it, really — Matt did all the heavy lifting, I just added some bits that I thought were helpful for my purposes.</p><p>This whole thing makes error handling pretty nice though — given the wrapper logic, you’ll always return a pretty good looking error. When creating errors within your app, you don’t have to have every error take this form — you can return normal errors lower down in the code and, depending on how you organize your code, you can catch and form the HTTPErr at a very high level so you’re not having to deal with populating a cumbersome struct all the way throughout your code. The below basically assumes that the usr.Create method is doing validations and as such we can add the “validation_failed” type to all errors returned from this method.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=display:flex><span><span style=color:#a6e22e>tx</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>usr</span>.<span style=color:#a6e22e>Create</span>(<span style=color:#a6e22e>ctx</span>, <span style=color:#a6e22e>env</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>errorHandler</span>.<span style=color:#a6e22e>HTTPErr</span>{
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>Code</span>: <span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>StatusBadRequest</span>,
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>Type</span>: <span style=color:#e6db74>&#34;validation_failed&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>Err</span>:  <span style=color:#a6e22e>err</span>,
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>I also added a SetErr method to the HTTPErr struct, which allows you to initialize the struct with some default values and add the actual error on the fly. For instance, below as part of my super high level edit checks on my service inputs, I initialize the HTTPErr object at the beginning of my function and then perform my edit checks to allow for brevity in error creation.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=display:flex><span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>newUser</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#a6e22e>context</span>.<span style=color:#a6e22e>Context</span>, <span style=color:#a6e22e>env</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>env</span>.<span style=color:#a6e22e>Env</span>, <span style=color:#a6e22e>cur</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>createUserRequest</span>) (<span style=color:#f92672>*</span><span style=color:#a6e22e>appUser</span>.<span style=color:#a6e22e>User</span>, <span style=color:#66d9ef>error</span>) {
+</span></span><span style=display:flex><span><span style=color:#75715e>// declare a new instance of appUser.User
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#a6e22e>usr</span> <span style=color:#f92672>:=</span> new(<span style=color:#a6e22e>appUser</span>.<span style=color:#a6e22e>User</span>)
+</span></span><span style=display:flex><span><span style=color:#75715e>// initialize an errorHandler with the default Code and Type for
+</span></span></span><span style=display:flex><span><span style=color:#75715e>// service validations (Err is set to nil as it will be set later)
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#a6e22e>e</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>errorHandler</span>.<span style=color:#a6e22e>HTTPErr</span>{
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>Code</span>: <span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>StatusBadRequest</span>,
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>Type</span>: <span style=color:#e6db74>&#34;validation_error&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>Err</span>:  <span style=color:#66d9ef>nil</span>,
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#75715e>// for each field you can go through whatever validations you wish
+</span></span></span><span style=display:flex><span><span style=color:#75715e>// and use the SetErr method of the HTTPErr struct to add the proper
+</span></span></span><span style=display:flex><span><span style=color:#75715e>// error text
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>switch</span> {
+</span></span><span style=display:flex><span><span style=color:#75715e>// Username is required
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>case</span> <span style=color:#a6e22e>cur</span>.<span style=color:#a6e22e>Username</span> <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;&#34;</span>:
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>e</span>.<span style=color:#a6e22e>SetErr</span>(<span style=color:#e6db74>&#34;Username is a required field&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>, <span style=color:#a6e22e>e</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// Username cannot be blah...
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>case</span> <span style=color:#a6e22e>cur</span>.<span style=color:#a6e22e>Username</span> <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;blah&#34;</span>:
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>e</span>.<span style=color:#a6e22e>SetErr</span>(<span style=color:#e6db74>&#34;Username cannot be blah&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>, <span style=color:#a6e22e>e</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// If we get through the switch, set the field
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>default</span>:
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>usr</span>.<span style=color:#a6e22e>Username</span> = <span style=color:#a6e22e>cur</span>.<span style=color:#a6e22e>Username</span>
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#f92672>...</span>..
+</span></span></code></pre></div><p>That’s it for now — I should note that Rob Pike and Andrew Gerrand authored a great <a href=https://commandcenter.blogspot.com/2017/12/error-handling-in-upspin.html>post</a> on error handling that is likely amazing. I need to ingest that and see how I can fold that into this as well…</p></div><div class="row pl-3 pr-3"><div class="col-md-6 share-buttons"></div><div class="col-md-6 btn-improve-page"><a href=https://github.com/gilcrest/gilcrest.github.io/edit/source/content/posts/archive/http-json-error-responses/index.md title="Improve this page" target=_blank rel=noopener><i class="fas fa-code-branch"></i>
+Improve this page</a></div></div><hr><div class="row next-prev-navigator"><div class="col-md-6 previous-article"><a href=/posts/archive/containerize-go-api/ title="Containerizing a Go API with Docker For Mac" class="btn btn-outline-info"><div><i class="fas fa-chevron-circle-left"></i> Prev</div><div class=next-prev-text>Containerizing a Go API with Docker For Mac</div></a></div><div class="col-md-6 next-article"><a href=/posts/archive/king-crimson-red/ title="Drums: King Crimson Red Live @ Great Scott" class="btn btn-outline-info"><div>Next <i class="fas fa-chevron-circle-right"></i></div><div class=next-prev-text>Drums: King Crimson Red Live @ Great Scott</div></a></div></div><hr><div id=disqus_thread></div><script type=text/javascript>(function(){if(window.location.hostname=="localhost")return;var e=document.createElement("script"),t;e.type="text/javascript",e.async=!0,t="dangillis",e.src="//"+t+".disqus.com/embed.js",(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(e)})()</script><noscript>Please enable JavaScript to view the
+<a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com/ class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div></div></div><a id=scroll-to-top class=btn><i class="fas fa-chevron-circle-up"></i></a></section><section class=toc-section id=toc-section><div class=toc-holder><h5 class="text-center pl-3">Table of Contents</h5><hr><div class=toc><nav id=TableOfContents></nav></div></div></section></div><footer class="container-fluid text-center align-content-center footer pb-2"><div class="container pt-5"><div class="row text-left"><div class="col-md-4 col-sm-12"><h5>Navigation</h5><ul><li class=nav-item><a class=smooth-scroll href=https://gilcrest.github.io#about>About</a></li><li class=nav-item><a class=smooth-scroll href=https://gilcrest.github.io#recent-posts>Recent Posts</a></li></ul></div><div class="col-md-4 col-sm-12"><h5>Contact me:</h5><ul><li><a href=mailto:dan@dangillis.dev target=_blank rel=noopener><span><i class="fas fa-envelope"></i></span> <span>dan@dangillis.dev</span></a></li></ul></div></div></div><hr><div class=container><div class="row text-left"><div class=col-md-4><a id=theme href=https://github.com/hossainemruz/toha target=_blank rel=noopener><img src=/images/theme-logo_hu8376fd15465fef26ffe66b6bcf0ca686_13669_32x0_resize_box_3.png alt="Toha Theme Logo">
+Toha</a></div><div class="col-md-4 text-center">© 2021 Copyright.</div><div class="col-md-4 text-right"><a id=hugo href=https://gohugo.io/ target=_blank rel=noopener>Powered by
+<img src=/images/hugo-logo.svg alt="Hugo Logo" height=18></a></div></div></div></footer><script type=text/javascript src=/js/jquery-3.4.1.min.js></script>
 <script type=text/javascript src=/js/popper.min.js></script>
 <script type=text/javascript src=/js/bootstrap.min.js></script>
 <script type=text/javascript src=/js/navbar.js></script>
@@ -402,6 +206,4 @@ Toha
 <script type=text/javascript defer src=/js/auto-render.min.js onload=renderMathInElement(document.body)></script>
 <script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js></script>
 <script src=/js/single.js></script>
-<script>hljs.initHighlightingOnLoad()</script>
-</body>
-</html>
+<script>hljs.initHighlightingOnLoad()</script></body></html>
