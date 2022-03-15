@@ -5,7 +5,7 @@ description: Logging in go-api-basic
 menu:
   sidebar:
     name: Logging in go-api-basic
-    weight: 1
+    weight: 2
 ---
 
 ## Thoughts on Logging
