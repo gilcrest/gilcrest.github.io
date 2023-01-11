@@ -121,7 +121,7 @@ $ oplint -missing foo.go
 
 ## Next Steps
 
-I am going to refactor the error handling in my diygoapi project and I will use this tool to aid in that effort. I will add another post describing the changes I made for errors then.
+I am going to refactor the error handling in my [diygoapi project](https://github.com/gilcrest/diygoapi) and I will use this tool to aid in that effort. I will add another post describing the changes I made for errors then.
 
 ## Acknowledgements
 
