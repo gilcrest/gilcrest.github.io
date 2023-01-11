@@ -8,40 +8,34 @@ menu:
     weight: 20
 ---
 
-To understand where an error originated, one approach is to prepend the error text with the function name where the error occurred. As the error goes up the call chain, additional function names can be added while wrapping the original error.
+I made a new linter called [oplint](https://github.com/gilcrest/oplint)! This was a really fun thing to do as I had never ventured into static analysis before. I created this tool to help me understand where an error originates without using the [pkg/errors](https://github.com/pkg/errors) error stack functionality. The `pkg/errors` project has been archived and it seems the Go community has largely moved on to just wrapping errors using the standard library. I am moving away from using `pkg/errors` to use only the standard library as well, and am trying to make sure I can trace an error source in a standardized way.
 
-It can be handy to define an `op` constant (short for *operation*) to capture the function name, particularly if you have multiple error return possibilities in one function (rather than copy/paste). For example:
+One approach is to prepend an error with the function name where the error occurred. As the error goes up the call chain, additional function names can be added while wrapping the original error. Brandon Schurman does a great job explaining this concept in the *Wrapping Errors* section of his [Effective Error Handling in Golang](https://earthly.dev/blog/golang-errors/) blog post.
+
+For this pattern, it can be handy to define an `op` constant (short for *operation*) to capture the function name, particularly if you have multiple error return possibilities in one function (rather than copy/paste). The problem I've had using the `op` constant pattern for a while, is that I would often not be able to trust my own results as I invariably had copy/pasted something and forgotten to update the op value to match the function name.
+
+This tool makes it so I can scan through my code easily and know I got each op correct.
+
+Let's start by looking at a simple example of a function returning an error:
 
 ```go
 package opdemo
 
 import "fmt"
 
-// FindSomething finds something given an ID
-func FindSomething(id int) error {
-    const op = "opdemo/FindSomething"
+// IsEven returns an error if the number given is not even
+func IsEven(n int) error {
+    const op = "opdemo/IsEven"
 
-    row, err = datastore.New(dbtx).FindSomethingByID(ctx, id)
-    if err != nil {
-        if errors.Is(err, pgx.ErrNoRows) {
-            return nil, fmt.Errorf("%s: nothing found for id %d", op, id)
-        } else {
-            return nil, fmt.Errorf("%s: failed executing FindSomethingByID: %w", op, err)
-        }
+    if n%2 != 0 {
+        return fmt.Errorf("%s: %d is not even", op, n)
     }
     return nil
 }
 ```
 
 The error returned is formatted with a helpful locator:
-
-`opdemo/FindSomething: nothing found for id 123456`
-
-or, if the error was not `pgx.ErrNoRows`:
-
-`opdemo/FindSomething: failed executing FindSomethingByID: unable to reach database`
-
------
+> `opdemo/IsEven: 3 is not even`
 
 The `op` format for a typical function is:
 
@@ -125,9 +119,9 @@ $ oplint -missing foo.go
 
 > The default value is false for the `-missing` flag. If it is not present, these checks will not be run.
 
-## Why?
+## Next Steps
 
-I created this because I have used this op pattern for a while, but would often not be able to trust my own results as I often had copy/pasted something and forgot to update the op signature to match the function. This makes it so I can scan through my code easily and know I got each op correct.
+I am going to refactor the error handling in my diygoapi project and I will use this tool to aid in that effort. I will add another post describing the changes I made for errors then.
 
 ## Acknowledgements
 
