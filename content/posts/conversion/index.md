@@ -5,11 +5,11 @@ description: Converted Blog from Jekyll to Hugo today
 menu:
   sidebar:
     name: Jekyll to Hugo Conversion
-    weight: 30
+    weight: 70
 ---
 
 Today I converted my old posts from [jekyll](https://jekyllrb.com/) to [HUGO](https://gohugo.io/) and [archived them](https://dangillis.dev/posts/archive/) for posterity. It's fun to look back at some of those posts now -- so much has changed for me...
 
-My new site is going to start minimalist and I'll add to it over time.
+My new site is going to start minimalist, and I'll add to it over time.
 
 I'm using the [Toha](https://github.com/hugo-toha/toha) theme, which has [great guides](https://toha-guides.netlify.app/posts/)

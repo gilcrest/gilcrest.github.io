@@ -6,7 +6,7 @@ hero: hero.jpeg
 menu:
   sidebar:
     name: Emerging from my Gopher Hole
-    weight: 20
+    weight: 50
 ---
 
 ## Inspiration
