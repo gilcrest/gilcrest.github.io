@@ -12,19 +12,17 @@ I have recently updated the way I handle errors in Go. In some ways, I've come f
 
 I decided I would return to error wrapping also, but wanted to standardize my approach similar to what Rob Pike did in his article using an `op` constant:
 
-```text
-In typical use, calls to errors.E will arise multiple times within a method, so we define a constant, conventionally called op, that will be passed to all E calls within the method:
-
-  func (s *Server) Delete(ref upspin.Reference) error {
-    const op errors.Op = "server.Delete"
-     ...
-
-Then through the method we use the constant to prefix each call (although the actual ordering of arguments is irrelevant, by convention op goes first):
-
-if err := authorize(user); err != nil {
-    return errors.E(op, user, errors.Permission, err)
-  }
-```
+> In typical use, calls to errors.E will arise multiple times within a method, so we define a constant, conventionally called op, that will be passed to all E calls within the method:
+>
+>  func (s *Server) Delete(ref upspin.Reference) error {
+>    const op errors.Op = "server.Delete"
+>     ...
+>
+> Then through the method we use the constant to prefix each call (although the actual ordering of arguments is irrelevant, by convention op goes first):
+>
+> if err := authorize(user); err != nil {
+>     return errors.E(op, user, errors.Permission, err)
+>   }
 
 Where I differ, is that I need to present the op stack in structured logging vs. the upspin approach of string formatting with nested indentation.
 
