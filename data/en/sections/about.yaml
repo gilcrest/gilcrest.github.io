@@ -39,10 +39,6 @@ socialLinks:
     icon: "fab fa-instagram"
     url: "https://www.instagram.com/g.ilcrest/"
 
-  - name: Twitter
-    icon: "fab fa-twitter"
-    url: "https://twitter.com/Gilcrestian"
-
   - name: Medium
     icon: "fab fa-medium"
     url: "https://gilcrestian.medium.com/"
