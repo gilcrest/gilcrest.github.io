@@ -4,8 +4,6 @@ copyright: © 2023 Copyright.
 # Meta description for your site.  This will help the search engines to find your site.
 description: Portfolio and personal blog of Dan Gillis.
 
-ignoreErrors: ["error-remote-getjson"]
-
 # specify the list of custom menus that you want to show in the top navbar.
 # they will be separated by a divider from the main menus.
 customMenus:
