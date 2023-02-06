@@ -11,6 +11,8 @@ languages:
     languageName: English
     weight: 1
 
+ignoreErrors: ["error-remote-getjson"]
+
 # Allow raw html in markdown file
 markup:
   goldmark:
